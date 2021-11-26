@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Portfolio from "../Components/Portfolio"
 
-const Navbar = () => {
+const Navbar = ({userInfos}) => {
 	return (
 		<Header>
 			<Tabs>
@@ -14,7 +14,7 @@ const Navbar = () => {
 					<LinkToPage to="/history">History</LinkToPage>
 				</Tab>
 			</Tabs>
-			<Portfolio />
+			<Portfolio userInfos={userInfos}/>
 		</Header>
 	)
 }
