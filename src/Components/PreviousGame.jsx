@@ -3,23 +3,13 @@ import styled from "styled-components"
 import { AiOutlineTeam } from "react-icons/ai"
 import Web3 from 'web3'
 
-const Betting = ({userInfos, idCurrentGame}) => {
+const PreviousGame = ({userInfos, idCurrentGame}) => {
 		const web3 = new Web3(window.ethereum);
 		let Contract = require('web3-eth-contract');
 		let abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_lastGame","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_changeCurrentGame","type":"event"},{"anonymous":false,"inputs":[],"name":"_initCycle","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinDown","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinUp","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256[]","name":"_game","type":"uint256[]"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_reward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_address","type":"address"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_rewardAdmin","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"update","type":"uint256"}],"name":"_setIntervalTime","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_updateTreasury","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"Games","outputs":[{"internalType":"uint256","name":"upAmount","type":"uint256"},{"internalType":"uint256","name":"downAmount","type":"uint256"},{"internalType":"uint256","name":"totalAmount","type":"uint256"},{"internalType":"uint256","name":"rewardAmount","type":"uint256"},{"internalType":"uint256","name":"rewardPoolAmount","type":"uint256"},{"internalType":"bool","name":"rewardCalculated","type":"bool"},{"internalType":"uint256","name":"endTimestamp","type":"uint256"},{"internalType":"int256","name":"priceEnd","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NextCurrentGame","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentGameId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesRate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentPrice","outputs":[{"internalType":"int256","name":"_price","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserWins","outputs":[{"internalType":"uint256[]","name":"_winGames","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"initCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"intervalSeconds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"idGame","type":"uint256"},{"internalType":"address","name":"_address","type":"address"}],"name":"isWinner","outputs":[{"internalType":"bool","name":"_isWinner","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"joinDown","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"joinUp","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"idGames","type":"uint256[]"}],"name":"reward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"_address","type":"address"}],"name":"rewardAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_intervalSeconds","type":"uint256"}],"name":"setIntervalSeconds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userGames","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"poolChoice","type":"uint8"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"}];
 		let contract = new web3.eth.Contract(abi, "0x8c9f42840078a4f79cCeEEe7A425439237Bc4ed6");
 
 		const [gameInfos, setGameInfos] = useState("");
-
-	async function betUp(){
-		await window.ethereum.enable();
-	 	await contract.methods.joinUp().send({from: userInfos.account, value: "100000000000000000"});
-	}
-
-	async function betDown(){
-		await window.ethereum.enable();
-	 	await contract.methods.joinDown().send({from: userInfos.account, value: "100000000000000000"});
-	}
 
 	async function getGameInfos(idGame){
 			await window.ethereum.enable();
@@ -45,32 +35,40 @@ const Betting = ({userInfos, idCurrentGame}) => {
 	    			currentPrice = receipt/10 ** 8;
 				});
 
+			var min = String((game.endTimestamp - Math.floor(Date.now()/1000)) % 60);
+			if(min < 10)	min  = "0"+ min
+
 			var priceStart = 0;
-			var previousTime = 0;
 			if(currentGameId != 0){
 				await contract.methods.Games(parseInt(currentGameId)-1).call()
 				.then(function(receipt){
 	    			priceStart = receipt.priceEnd / 10 ** 8;
-	    			previousTime = receipt.endTimestamp;
 				});
 			}
 
-			var min = String((previousTime - Math.floor(Date.now()/1000)) % 60);
-			if(min < 10)	min  = "0"+ min
+			var userGame = await contract.methods.users(currentGameId, userInfos.account).call();
+			var result = "";
+			if(parseInt(userGame.amount) > 0){
+				if ((game.priceEnd / 10 ** 8) > priceStart && userGame.poolChoice == "1" || (game.priceEnd / 10 ** 8) < priceStart && userGame.poolChoice == "1"){
+					result = "You won"
+				}else{
+					result = "You lost"
+				}
+			}
 
-			var userAmount = await contract.methods.users(currentGameId, userInfos.account).call();
-
-			
-			statusGame = "Next"
+			statusGame = "Closed"
 			setGameInfos({
 				Pool0Amount : await web3.utils.fromWei(game.upAmount, 'ether'),
 				Pool1Amount : await web3.utils.fromWei(game.downAmount, 'ether'),
 				status: statusGame,
-				priceStart : priceStart.toFixed(3),
+				PriceStart : priceStart.toFixed(3),
+				PriceEnd: (game.priceEnd / 10 ** 8).toFixed(3),
 				CurrentPrice: currentPrice.toFixed(3), 
 				CurrentGameId: currentGameId,
-				playerState: parseInt(userAmount.amount) > 0 ? "IN : " + await web3.utils.fromWei(userAmount.amount, 'ether'): "OUT",
-				TimeLeft: Math.floor((previousTime - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((previousTime - Math.floor(Date.now()/1000))/60)) + " : " + min : "Locked"
+				playerState: parseInt(userGame.amount) > 0 ? "IN : " + await web3.utils.fromWei(userGame.amount, 'ether'): "OUT",
+				TimeLeft: String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min,
+				winner: (game.priceEnd / 10 ** 8) > priceStart ? "UP" : "DOWN",
+				res: result
 			})
 	}
 	useEffect(() => {
@@ -82,15 +80,14 @@ const Betting = ({userInfos, idCurrentGame}) => {
 			<Teams>
 				<ScoreContainer>
 					<Score> #{gameInfos.CurrentGameId}</Score>
+					<Score> price lock {gameInfos.PriceStart} USD</Score>
+					<Score> price end {gameInfos.PriceEnd} USD</Score>
 					<Score> prize pool {parseFloat(gameInfos.Pool0Amount)+parseFloat(gameInfos.Pool1Amount)} MATIC</Score>
-					<Score> {gameInfos.TimeLeft}</Score>
+					<Score> {gameInfos.winner} won</Score>
 					<Score> {gameInfos.playerState} </Score>
+					<Score> {gameInfos.res} </Score>
 				</ScoreContainer>
 			</Teams>
-			<Bets>
-				<BetsButton onClick={() => betUp()}>UP : {gameInfos.Pool0Amount} MATIC</BetsButton>
-				<BetsButton onClick={() => betDown()}>DOWN : {gameInfos.Pool1Amount} MATIC</BetsButton>
-			</Bets>
 		</Container>
 	)
 }
@@ -112,10 +109,12 @@ const Container = styled.div`
 		". Teams Teams Teams Teams ."
 		". . . . . ."
 		". bets bets bets bets ."
+		". reward reward reward reward ."
+		". . . . . .";
 `
 const Status = styled.div`
 	grid-area: Status;
-	color: green;
+	color: red;
 `
 
 const Teams = styled.div`
@@ -162,4 +161,4 @@ const BetsButton = styled.button`
 	border-radius: 0.5rem;
 `
 
-export default Betting
+export default PreviousGame

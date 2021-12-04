@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Betting from "../Components/Betting"
+import CurrentGame from "../Components/CurrentGame"
+import PreviousGame from "../Components/PreviousGame"
 import { BiFootball, BiBasketball, BiTennisBall } from "react-icons/bi"
 import { MdSportsRugby } from "react-icons/md"
 import Navbar from "../Components/Navbar"
@@ -8,57 +10,113 @@ import Portfolio from "../Components/Portfolio"
 import Web3 from 'web3'
 
 const Homepage = () => {
-	const [userInfos, setUserInfos] = useState({account: "Not connected",
-		 		    balance: "0",
-		     		network: "Not connected",
-		     		contract: "0xB9CB82DE47db637938a408CeD9E7Edb2f0748130"});
-	const [selectedAccount, setSelectedAccount] = useState("");
-	async function logAccount(){
-	 	let provider = window.ethereum;
-	 	const web3 = new Web3(window.ethereum);
-	 	if (typeof provider !== 'undefined') {
-	 		await provider
-	 			.request({ method: 'eth_requestAccounts' })
-	 				.then((accounts) => {
-	 				setSelectedAccount(accounts[0]);
-	 			})
-	 			.catch((err) => {
-	 				console.log(err);
-	 				return;
-	 			});
+	const web3 = new Web3(window.ethereum);
+	let Contract = require('web3-eth-contract');
+	let abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_lastGame","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_changeCurrentGame","type":"event"},{"anonymous":false,"inputs":[],"name":"_initCycle","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinDown","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinUp","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256[]","name":"_game","type":"uint256[]"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_reward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_address","type":"address"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_rewardAdmin","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"update","type":"uint256"}],"name":"_setIntervalTime","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_updateTreasury","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"Games","outputs":[{"internalType":"uint256","name":"upAmount","type":"uint256"},{"internalType":"uint256","name":"downAmount","type":"uint256"},{"internalType":"uint256","name":"totalAmount","type":"uint256"},{"internalType":"uint256","name":"rewardAmount","type":"uint256"},{"internalType":"uint256","name":"rewardPoolAmount","type":"uint256"},{"internalType":"bool","name":"rewardCalculated","type":"bool"},{"internalType":"uint256","name":"endTimestamp","type":"uint256"},{"internalType":"int256","name":"priceEnd","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NextCurrentGame","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentGameId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesRate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentPrice","outputs":[{"internalType":"int256","name":"_price","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserWins","outputs":[{"internalType":"uint256[]","name":"_winGames","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"initCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"intervalSeconds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"idGame","type":"uint256"},{"internalType":"address","name":"_address","type":"address"}],"name":"isWinner","outputs":[{"internalType":"bool","name":"_isWinner","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"joinDown","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"joinUp","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"idGames","type":"uint256[]"}],"name":"reward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"_address","type":"address"}],"name":"rewardAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_intervalSeconds","type":"uint256"}],"name":"setIntervalSeconds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userGames","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"poolChoice","type":"uint8"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"}];
+	let contract = new web3.eth.Contract(abi, "0x8c9f42840078a4f79cCeEEe7A425439237Bc4ed6");
 
-	 		await window.ethereum.on('accountsChanged', function (accounts) {
-	 			setSelectedAccount(accounts[0]);
-	 		});
-	 		
-	 		if(selectedAccount != ""){
-		 		setUserInfos({ 
-		 		    account: selectedAccount,
-		 		    balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
-		     		network: await web3.eth.net.getNetworkType(),
-		     		contract: "0xB9CB82DE47db637938a408CeD9E7Edb2f0748130",
-		     		status: "connected"
-		 		});
-		 	}
-	 	}
+	const [userInfos, setUserInfos] = useState({account: "0x8c9f42840078a4f79cCeEEe7A425439237Bc4ed6",
+					balance: "0",
+					network: "Not connected",
+					contract: "0x8c9f42840078a4f79cCeEEe7A425439237Bc4ed6",
+				});
+	const [idCurrentGame, setIdCurrentGame] = useState({
+		previous: 0,
+		current: 0,
+		next: 0
+	});
+	const [selectedAccount, setSelectedAccount] = useState("");
+
+	async function logAccount(){
+		let provider = window.ethereum;
+		const web3 = new Web3(window.ethereum);
+
+		if (typeof provider !== 'undefined') {
+			await provider
+				.request({ method: 'eth_requestAccounts' })
+					.then((accounts) => {
+					setSelectedAccount(accounts[0]);
+				})
+				.catch((err) => {
+					console.log(err);
+					return;
+				});
+
+			await window.ethereum.on('accountsChanged', function (accounts) {
+				setSelectedAccount(accounts[0]);
+			});
+			
+			if(selectedAccount != ""){
+
+				var rewardList = await contract.methods.getUserWins(selectedAccount).call();
+				var reward = 0;
+				var game;
+				var user;
+
+				for(var i=0; i<rewardList.length; i++){
+					if(rewardList[i] != 0){
+						await contract.methods.Games(rewardList[i]).call()
+							.then(function(receipt){
+		    					game = receipt;
+							});	
+
+						user = await contract.methods.users(rewardList[i], userInfos.account).call()
+						reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
+					}
+				}
+
+				setUserInfos({
+					account: selectedAccount,
+					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
+					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3) + " MATIC",
+					network: await web3.eth.net.getNetworkType(),
+					contract: "0x8c9f42840078a4f79cCeEEe7A425439237Bc4ed6",
+					status: "connected",
+				});
+			}
+		}
 	}
+	async function getData(){
+
+			await contract.methods.currentGameId.call().call()
+				.then(function(receipt){
+					setIdCurrentGame({
+						previous: parseInt(receipt)-1,
+						current: parseInt(receipt),
+						next: parseInt(receipt)+1
+					});
+				});
+	}
+
+	async function reward(){
+		await window.ethereum.enable();
+	 	await contract.methods.reward(await contract.methods.getUserWins(selectedAccount).call()).send({from: userInfos.account});
+	}
+	//logAccount();
 	useEffect(() => {
 		logAccount();
-        if (window.ethereum) {
-            window.ethereum.on("chainChanged", () => {
-                window.location.reload()
-            })
-            window.ethereum.on("accountsChanged", () => {
-                window.location.reload()
-            })
-        }
-    }, [selectedAccount])
+		setTimeout(() => {  getData(); }, 1000);
+		if (window.ethereum) {
+			window.ethereum.on("chainChanged", () => {
+				window.location.reload()
+			})
+			window.ethereum.on("accountsChanged", () => {
+				window.location.reload()
+			})
+		}
+	}, [selectedAccount, idCurrentGame])
 	return (
 		<Main>
 			<Navbar userInfos={userInfos}/>
 			<Container>
-				<Betting userInfos={userInfos}/>
+				<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous}/>
+				<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
+				<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/>
 			</Container>
+			<Reward>
+			<RewardText>{userInfos.rewards}</RewardText>
+				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
+			</Reward>
 		</Main>
 	)
 }
@@ -70,9 +128,10 @@ const Main = styled.main`
 
 const Container = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	gap: 5%;
 `
 const Categories = styled.div`
 	margin-top: 2rem;
@@ -93,6 +152,35 @@ const Categories = styled.div`
 			color: white;
 		}
 	}
+`
+
+const Reward = styled.div`
+	margin-top : 5%;
+	margin-left: 40%;
+	grid-area: reward;
+	background-color: #191b1f;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	width: 20%;
+	align-items: center;
+`
+
+const RewardText = styled.div`
+	color: white;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	justify-content: center;
+	align-items: center;
+`
+
+const RewardButton = styled.button`
+	background-color: #2f3031;
+	color: white;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	width: 100%;
 `
 
 export default Homepage

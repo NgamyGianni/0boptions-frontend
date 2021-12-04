@@ -3,14 +3,12 @@ import styled from "styled-components"
 import { FaEthereum } from "react-icons/fa"
 
 const Portfolio = ({userInfos}) => {
-	let tmpBalance = parseFloat(userInfos.balance).toFixed(3);
 	return (
 		<Container>
 			<Currency>
-				<FaEthereum />
-				Ethereum
+				Polygon
 			</Currency>
-			<Money>{tmpBalance} ETH</Money>
+			<Money>{parseFloat(userInfos.balance).toFixed(3)} MATIC</Money>
 			<Address>{userInfos.account}</Address>
 		</Container>
 	)
