@@ -1,19 +1,19 @@
-import React, { Component } from "react"
+import React from "react"
 import styled from "styled-components"
-import { FaEthereum } from "react-icons/fa"
 
 const Portfolio = ({userInfos}) => {
+	let tmp = userInfos.account;
+	let res = tmp.substring(0, 5) + "..." + tmp.substring((tmp.length)-4);
 	return (
 		<Container>
 			<Currency>
 				Polygon
 			</Currency>
 			<Money>{parseFloat(userInfos.balance).toFixed(3)} MATIC</Money>
-			<Address>{userInfos.account}</Address>
+			<Address>{res}</Address>
 		</Container>
 	)
 }
-
 
 const Container = styled.div`
 	background-color: #191b1f;
@@ -21,7 +21,7 @@ const Container = styled.div`
 	padding: 0.5rem;
 	border-radius: 0.5rem;
 	display: flex;
-	width: 40%;
+	width: 25%;
 	justify-content: space-between;
 `
 
