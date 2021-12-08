@@ -92,7 +92,6 @@ const Homepage = () => {
 		await window.ethereum.enable();
 		await contract.methods.reward(await contract.methods.getUserWins(selectedAccount).call()).send({from: selectedAccount});
 	}
-	//logAccount();
 	useEffect(() => {
 		logAccount();
 		setTimeout(() => {  getData(); }, 1000);
@@ -109,6 +108,7 @@ const Homepage = () => {
 		<Main>
 			<Navbar userInfos={userInfos}/>
 			<Container>
+
 				<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous}/>
 				<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
 				<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/>
@@ -154,6 +154,22 @@ const Categories = styled.div`
 	}
 `
 
+const StatusContainer = styled.div`
+	background-color: #191b1f;
+	border : #191b1f;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	display: flex;
+	width: 100%;
+	height: 100%;
+`
+
+const Id = styled.div`
+	width: 33%;
+	text-align: center;
+	color: rgb(149, 177, 254);
+`
+
 const Reward = styled.div`
 	margin-top : 5%;
 	margin-left: 40%;
@@ -178,6 +194,7 @@ const RewardText = styled.div`
 `
 
 const RewardButton = styled.button`
+	font-size: 100%;
 	color: rgb(84, 36, 50);
 	font-family: 'Inter custom',sans-serif;
 	background-image: linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);

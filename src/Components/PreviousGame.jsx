@@ -60,8 +60,8 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 			setGameInfos({
 				Pool1Amount : await web3.utils.fromWei(game.upAmount, 'ether'),
 				Pool0Amount : await web3.utils.fromWei(game.downAmount, 'ether'),
-				Pool1Payout: parseFloat(game.upAmount) > 0 ? parseFloat(await web3.utils.fromWei(((game.upAmount+game.downAmount)/game.upAmount), 'ether')).toFixed(2) : 1,
-				Pool0Payout: parseFloat(game.downAmount) > 0 ? parseFloat(await web3.utils.fromWei(((game.upAmount+game.downAmount)/game.downAmount), 'ether')).toFixed(2) : 1,
+				Pool1Payout: parseFloat(game.upAmount) > 0 ? ((parseFloat(game.upAmount)+parseFloat(game.downAmount))/parseFloat(game.upAmount)).toFixed(2) : "1.00",
+				Pool0Payout: parseFloat(game.downAmount) > 0 ? ((parseFloat(game.upAmount)+parseFloat(game.downAmount))/parseFloat(game.downAmount)).toFixed(2) : "1.00",
 				status: statusGame,
 				PriceStart : priceStart.toFixed(3),
 				PriceEnd: (game.priceEnd / 10 ** 8).toFixed(3),
@@ -76,27 +76,27 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 		setTimeout(() => {  getGameInfos(idCurrentGame); }, 1000);
 	},[gameInfos, idCurrentGame]);
 	return (
-		<Container>
+		<Container style={gameInfos.winner == "UP" ? {border: "3px solid rgb(39, 255, 96)"} : {border: "3px solid rgb(255, 67, 67)"}}>
 			<StatusContainer>
 				<State>{gameInfos.status}</State>
 				<Id>#{gameInfos.CurrentGameId}</Id>
 			</StatusContainer>
-			<Up style={gameInfos.winner == "UP" ? {} : {background:"linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%)", color:"rgb(84, 36, 50)", border: "1px solid rgb(84, 36, 50)"}}>UP x{gameInfos.Pool1Payout} Payout</Up>
-			<StatsContainer style={gameInfos.winner == "UP" ? {border: "1px solid rgb(39, 255, 96)"} : {border: "1px solid rgb(255, 67, 67)"}}>
+			<Up style={gameInfos.winner == "UP" ? {} : {background:"linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%)", color:"rgb(84, 36, 50)", border: "3px solid rgb(84, 36, 50)"}}>UP x{gameInfos.Pool1Payout} Payout</Up>
+			<StatsContainer>
+				<Stats>
+					<Key>Closed price</Key>
+					<Value style={gameInfos.winner == "UP" ? {border: "3px solid rgb(39, 255, 96)"} : {border: "3px solid rgb(255, 67, 67)"}}>{gameInfos.PriceEnd} $</Value>
+				</Stats>
 				<Stats>
 					<Key>Locked price</Key>
 					<Value>{gameInfos.PriceStart} $</Value>
-				</Stats>
-				<Stats>
-					<Key>Closed price</Key>
-					<Value>{gameInfos.PriceEnd} $</Value>
 				</Stats>
 				<Stats>
 					<Key>Prize pool</Key>
 					<Value>{(parseFloat(gameInfos.Pool0Amount)+parseFloat(gameInfos.Pool1Amount)) > 0 ? (parseFloat(gameInfos.Pool0Amount)+parseFloat(gameInfos.Pool1Amount)).toFixed(2) : 0} MATIC</Value>
 				</Stats>
 			</StatsContainer>
-			<Down style={gameInfos.winner == "DOWN" ? {} : {background:"linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%)", color:"rgb(84, 36, 50)", border: "1px solid rgb(84, 36, 50)"}}>DOWN x{gameInfos.Pool0Payout} Payout</Down>
+			<Down style={gameInfos.winner == "DOWN" ? {} : {background:"linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%)", color:"rgb(84, 36, 50)", border: "3px solid rgb(84, 36, 50)"}}>DOWN x{gameInfos.Pool0Payout} Payout</Down>
 			<OutputContainer>
 				<Output>{gameInfos.playerState}</Output>
 			</OutputContainer>
@@ -162,12 +162,10 @@ const Id = styled.div`
 `
 
 const Up = styled.div`
-	margin-top: 5%;
-	color: white;
 	padding: 0.5rem;
 	border-radius: 0.5rem;
 	width: 100%;
-	border: 1px solid rgb(39, 255, 96);
+	border: 3px solid rgb(39, 255, 96);
 	background:rgb(149, 177, 254);
 	color: rgb(39, 255, 96);
 	text-align: center;
@@ -177,23 +175,12 @@ const Down = styled.div`
 	padding: 0.5rem;
 	border-radius: 0.5rem;
 	width: 100%;
-	border: 1px solid rgb(255, 67, 67);
+	border: 3px solid rgb(255, 67, 67);
 	background:rgb(206, 162, 206);
 	color: rgb(255, 67, 67);
 	text-align: center;
 `
 
-const Teams = styled.div`
-	grid-area: Teams;
-	display: flex;
-	flex-direction:column;
-	align-items: center;
-	justify-content: center;
-	& svg {
-		width: 30%;
-		height: 100%;
-	}
-`
 const StatsContainer = styled.div`
 	background-color: #191b1f;
 	display: flex;
@@ -229,14 +216,9 @@ const Value = styled.div`
 	text-align: center;
 `
 
-const CurrentPrice = styled.span`
-	font-size: 0.9rem;
-	color: green;
-`
-
 const OutputContainer = styled.div`
-	background-image: linear-gradient(90deg, rgb(255, 150, 165) 0%, rgb(255, 185, 140) 100%);
-	border : linear-gradient(90deg, rgb(255, 150, 165) 0%, rgb(255, 185, 140) 100%);
+	background-image: linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);
+	border : 1px solid linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);
 	padding: 0.5rem;
 	border-radius: 0.5rem;
 	width: 100%;
@@ -246,23 +228,6 @@ const OutputContainer = styled.div`
 
 const Output = styled.p`
 	text-align: center;	
-`
-
-const Bets = styled.div`
-	grid-area: bets;
-	background-color: #191b1f;
-	padding: 0.5rem;
-	border-radius: 0.5rem;
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-`
-
-const BetsButton = styled.button`
-	background-color: #2f3031;
-	color: white;
-	padding: 0.5rem;
-	border-radius: 0.5rem;
 `
 
 export default PreviousGame
