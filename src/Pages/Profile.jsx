@@ -102,7 +102,6 @@ const Profile = () => {
 				winRate = 0
 				netWinnings = 0
 			}
-
 			setProfileInfos({
 				rounds: cpt,
 				winRate: winRate,
@@ -134,7 +133,7 @@ const Profile = () => {
 				window.location.reload()
 			})
 		}
-	}, [selectedAccount])
+	}, [selectedAccount, profileInfos])
 	return (
 		<Main>
 			<Navbar userInfos={userInfos} page="Profile"/>
