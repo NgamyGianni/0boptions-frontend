@@ -42,15 +42,7 @@ const Profile = () => {
 			
 			if(selectedAccount !== ""){
 
-				setUserInfos({
-					account: selectedAccount,
-					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
-					network: await web3.eth.net.getId(),
-					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
-					status: "connected",
-				});
-				if(userInfos.network == 137){
-					var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
+				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
 					var reward = 0;
 					var game;
 					var user;
@@ -66,8 +58,15 @@ const Profile = () => {
 							reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
 						}
 					}
-					userInfos.rewards = parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
-				}
+
+				setUserInfos({
+					account: selectedAccount,
+					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
+					network: await web3.eth.net.getId(),
+					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3),
+					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
+					status: "connected",
+				});
 			}
 		}
 	}
