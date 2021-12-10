@@ -11,7 +11,8 @@ const Portfolio = ({userInfos}) => {
 				{userInfos.network == "137" ? 
 				"Polygon" :  "Wrong network"}
 			</Currency>
-			<Money>{parseFloat(userInfos.balance).toFixed(3)} MATIC</Money>
+			<Money>{userInfos.network == "137" ? 
+				parseFloat(userInfos.balance).toFixed(3) + "MATIC" :  ""}</Money>
 			<Address>{res}</Address>
 		</Container>
 	)
