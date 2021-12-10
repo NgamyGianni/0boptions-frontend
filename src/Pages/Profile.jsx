@@ -124,7 +124,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		logAccount();
-		setTimeout(() => {  getData(); }, 1000);
+		setTimeout(() => {  getData(); }, 5000);
 		if (window.ethereum) {
 			window.ethereum.on("chainChanged", () => {
 				window.location.reload()
