@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 const Portfolio = ({userInfos}) => {
+
 	let tmp = userInfos.account;
 	let res = tmp.substring(0, 5) + "..." + tmp.substring((tmp.length)-4);
 	return (

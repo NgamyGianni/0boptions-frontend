@@ -1,14 +1,23 @@
 import React from "react"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 import Portfolio from "../Components/Portfolio"
 
-const Navbar = ({userInfos}) => {
+const Navbar = ({userInfos, page}) => {
 	return (
 		<Header>
 			<Title>
 				<img src={require("../logo.jpg").default} style={{width:"20%"}} alt="ok"/>
 				<TitleText>Automated binary options maker</TitleText>
 			</Title>
+			<Tabs>
+ 				<Tab className={page=="Homepage" ? "active":""}>
+ 					<LinkToPage to="/">Binary Options</LinkToPage>
+ 				</Tab>
+ 				<Tab className={page=="Profile" ? "active":""}>
+ 					<LinkToPage to="/profile" >Profile</LinkToPage>
+ 				</Tab>
+ 			</Tabs>
 			<Title style={{"margin-left": "3.5%"}}>
 				<img src={require("../pngaaa.com-4112190.png").default} style={{width:"15%"}} alt="ok"/>
 				<TitleText>Ethereum</TitleText>
@@ -44,6 +53,33 @@ const Header = styled.header`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+`
+
+const Tabs = styled.div`
+	display: flex;
+	background-color: #191b1f;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+`
+const LinkToPage = styled(Link)`
+	text-decoration: none;
+	color: #fff;
+	transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
+	&:hover {
+		color: #9b9b9b;
+	}
+`
+const Tab = styled.div`
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	color: #fff;
+	cursor: pointer;
+	&.active {
+		background-color: #2c2f36;
+	}
+	&:first-child {
+		margin-right: 1rem;
+	}
 `
 
 export default Navbar
