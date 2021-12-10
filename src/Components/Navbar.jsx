@@ -7,7 +7,7 @@ const Navbar = ({userInfos, page}) => {
 	return (
 		<Header>
 			<Title>
-				<img src={require("../logo.jpg").default} style={{width:"20%"}} alt="ok"/>
+				<img src={require("../logo.jpg").default} style={{width:"20%"}} alt="no image"/>
 				<TitleText>Automated binary options maker</TitleText>
 			</Title>
 			<Tabs>
@@ -19,7 +19,7 @@ const Navbar = ({userInfos, page}) => {
  				</Tab>
  			</Tabs>
 			<Title style={{"margin-left": "3.5%"}}>
-				<img src={require("../pngaaa.com-4112190.png").default} style={{width:"15%"}} alt="ok"/>
+				<img src={require("../pngaaa.com-4112190.png").default} style={{width:"15%"}} alt="no image"/>
 				<TitleText>Ethereum</TitleText>
 			</Title>
 			<Portfolio userInfos={userInfos}/>
