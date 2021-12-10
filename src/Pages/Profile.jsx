@@ -49,7 +49,7 @@ const Profile = () => {
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
 					status: "connected",
 				});
-				if(userInfos.network == "137"){
+				if(userInfos.network == 137){
 					var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
 					var reward = 0;
 					var game;
@@ -73,7 +73,7 @@ const Profile = () => {
 	}
 
 	async function getData(){
-		if(selectedAccount !== "" && userInfos.network == "137"){
+		if(selectedAccount !== "" && userInfos.network == 137){
 			var reward = 0;
 			var cpt = (await contract.methods.getUserGames(selectedAccount).call()).length;
 			var netWinnings;
@@ -106,7 +106,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		logAccount();
-		setTimeout(() => {  getData(); }, 1000);
+		setTimeout(() => {  getData(); }, 3000);
 		if (window.ethereum) {
 			window.ethereum.on("chainChanged", () => {
 				window.location.reload()

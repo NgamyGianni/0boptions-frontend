@@ -51,7 +51,7 @@ const Homepage = () => {
 					status: "connected",
 				});
 			}
-			if(userInfos.network == "137"){
+			if(userInfos.network == 137){
 				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
 				var reward = 0;
 				var game;
@@ -74,7 +74,6 @@ const Homepage = () => {
 		}
 	}
 	async function getData(){
-		if(userInfos.network == "137"){
 			await contract.methods.currentGameId.call().call()
 				.then(function(receipt){
 					setIdCurrentGame({
@@ -83,7 +82,6 @@ const Homepage = () => {
 						next: parseInt(receipt)+1
 					});
 				});
-		}
 	}
 
 	async function reward(){
