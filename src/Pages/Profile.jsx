@@ -88,7 +88,7 @@ const Profile = () => {
 			setProfileInfos({
 				rounds: cpt,
 				winRate: winRate.toFixed(1) + " %",
-				netWinnings: await web3.utils.fromWei(String(netWinnings), 'ether') + " MATIC",
+				netWinnings: String(parseFloat(await web3.utils.fromWei(String(netWinnings), 'ether')).toFixed(3)) + " MATIC",
 			});
 		}else{
 			setProfileInfos({
