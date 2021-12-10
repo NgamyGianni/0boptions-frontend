@@ -137,6 +137,10 @@ const Profile = () => {
 					</Stats>
 				</Container>
 			</ContainerGen>
+			<Reward>
+				<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
+				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
+			</Reward>
 		</Main>
 	)
 }
