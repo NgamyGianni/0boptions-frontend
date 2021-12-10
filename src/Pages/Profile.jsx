@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Navbar from "../Components/Navbar"
-import Homepage from "./Homepage"
 import Web3 from 'web3'
 
 const Profile = () => {
@@ -16,9 +15,9 @@ const Profile = () => {
 				});
 
 	const [profileInfos, setProfileInfos] = useState({
-		rounds: "",
-		winRate: "",
-		netWinnings: "",
+		rounds: 0,
+		winRate: 0,
+		netWinnings: 0,
 	})
 
 	const [selectedAccount, setSelectedAccount] = useState("");
@@ -83,21 +82,6 @@ const Profile = () => {
 			if((await contract.methods.getUserWins(selectedAccount).call())[0] != 0){
 				winRate = ((await contract.methods.getUserWins(selectedAccount).call()).length/cpt)*100;
 				netWinnings = await contract.methods.getUserWinAmount(selectedAccount).call() - await contract.methods.getUserTotalAmount(selectedAccount).call();
-
-				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
-				var game;
-				var user;
-
-				for(var i=0; i<rewardList.length; i++){
-					if(rewardList[i] > 0){
-						await contract.methods.Games(rewardList[i]).call()
-							.then(function(receipt){
-								game = receipt;
-						});	
-						user = await contract.methods.users(rewardList[i], selectedAccount).call()
-						reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
-					}
-				}
 			}else{
 				winRate = 0
 				netWinnings = 0
@@ -106,14 +90,12 @@ const Profile = () => {
 				rounds: cpt,
 				winRate: winRate,
 				netWinnings: await web3.utils.fromWei(String(netWinnings), 'ether'),
-				reward: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
 			});
 		}else{
 			setProfileInfos({
 				rounds: 0,
 				winRate: 0,
 				netWinnings: 0,
-				reward: 0
 			});
 		}
 	}
@@ -156,7 +138,7 @@ const Profile = () => {
 				</Container>
 			</ContainerGen>
 			<Reward>
-				<RewardText>{profileInfos.reward > 0 ? profileInfos.reward: 0} MATIC</RewardText>
+				<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
 				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
 			</Reward>
 		</Main>
