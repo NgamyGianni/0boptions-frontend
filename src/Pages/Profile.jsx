@@ -133,9 +133,6 @@ const Profile = () => {
 			window.ethereum.on("accountsChanged", () => {
 				window.location.reload()
 			})
-			window.ethereum.on("disconnect", () => {
-				window.location.reload()
-			})
 		}
 	}, [selectedAccount])
 	return (
