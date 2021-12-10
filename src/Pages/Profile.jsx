@@ -75,38 +75,32 @@ const Profile = () => {
 
 	async function getData(){
 		if(selectedAccount !== "" && userInfos.network == "137"){
-			console.log(selectedAccount)
 			var reward = 0;
 			var cpt = (await contract.methods.getUserGames(selectedAccount).call()).length;
 			var netWinnings;
 			var winRate;
 
-			if(cpt == 0){
+			if((await contract.methods.getUserWins(selectedAccount).call())[0] != 0){
+				winRate = ((await contract.methods.getUserWins(selectedAccount).call()).length/cpt)*100;
+				netWinnings = await contract.methods.getUserWinAmount(selectedAccount).call() - await contract.methods.getUserTotalAmount(selectedAccount).call();
+
+				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
+				var game;
+				var user;
+
+				for(var i=0; i<rewardList.length; i++){
+					if(rewardList[i] > 0){
+						await contract.methods.Games(rewardList[i]).call()
+							.then(function(receipt){
+								game = receipt;
+						});	
+						user = await contract.methods.users(rewardList[i], selectedAccount).call()
+						reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
+					}
+				}
+			}else{
 				winRate = 0
 				netWinnings = 0
-			}else{
-				if((await contract.methods.getUserWins(selectedAccount).call())[0] != 0){
-					winRate = ((await contract.methods.getUserWins(selectedAccount).call()).length/cpt)*100;
-					netWinnings = await contract.methods.getUserWinAmount(selectedAccount).call() - await contract.methods.getUserTotalAmount(selectedAccount).call();
-
-					var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
-					var game;
-					var user;
-
-					for(var i=0; i<rewardList.length; i++){
-						if(rewardList[i] > 0){
-							await contract.methods.Games(rewardList[i]).call()
-								.then(function(receipt){
-									game = receipt;
-							});	
-							user = await contract.methods.users(rewardList[i], selectedAccount).call()
-							reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
-						}
-					}
-				}else{
-					winRate = 0
-					netWinnings = 0
-				}
 			}
 
 			setProfileInfos({
@@ -115,7 +109,6 @@ const Profile = () => {
 				netWinnings: await web3.utils.fromWei(String(netWinnings), 'ether'),
 				reward: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
 			});
-			console.log(profileInfos)
 		}else{
 			setProfileInfos({
 				rounds: 0,
