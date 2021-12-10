@@ -7,8 +7,9 @@ const Portfolio = ({userInfos}) => {
 	let res = tmp.substring(0, 5) + "..." + tmp.substring((tmp.length)-4);
 	return (
 		<Container>
-			<Currency>
-				Polygon
+			<Currency style={userInfos.network == "137" ? {} : {background:"rgb(255, 67, 67)", color: "white", width: "50%"}}>
+				{userInfos.network == "137" ? 
+				"Polygon" :  "Wrong network"}
 			</Currency>
 			<Money>{parseFloat(userInfos.balance).toFixed(3)} MATIC</Money>
 			<Address>{res}</Address>
