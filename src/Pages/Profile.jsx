@@ -15,9 +15,9 @@ const Profile = () => {
 				});
 
 	const [profileInfos, setProfileInfos] = useState({
-		rounds: 0,
-		winRate: 0,
-		netWinnings: 0,
+		rounds: "Loading",
+		winRate: "Loading",
+		netWinnings: "Loading",
 	})
 
 	const [selectedAccount, setSelectedAccount] = useState("");
@@ -87,14 +87,14 @@ const Profile = () => {
 			}
 			setProfileInfos({
 				rounds: cpt,
-				winRate: winRate,
-				netWinnings: await web3.utils.fromWei(String(netWinnings), 'ether'),
+				winRate: winRate + " %",
+				netWinnings: await web3.utils.fromWei(String(netWinnings), 'ether') + " MATIC",
 			});
 		}else{
 			setProfileInfos({
-				rounds: 0,
-				winRate: 0,
-				netWinnings: 0,
+				rounds: "Loading",
+				winRate: "Loading",
+				netWinnings: "Loading",
 			});
 		}
 	}
@@ -123,7 +123,7 @@ const Profile = () => {
 					<StatsContainer>
 						<Stats>
 							<Key>Win Rate</Key>
-							<Value>{profileInfos.winRate} %</Value>
+							<Value>{profileInfos.winRate}</Value>
 						</Stats>
 						<Stats>
 							<Key>Rounds</Key>
@@ -132,7 +132,7 @@ const Profile = () => {
 					</StatsContainer>
 					<Stats style={{"margin-top":"20%"}}>
 							<Key>Net Winnings</Key>
-							<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings} MATIC</Value>
+							<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings}</Value>
 					</Stats>
 				</Container>
 			</ContainerGen>
