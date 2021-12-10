@@ -49,25 +49,25 @@ const Profile = () => {
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
 					status: "connected",
 				});
-			}
-			if(userInfos.network == "137"){
-				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
-				var reward = 0;
-				var game;
-				var user;
+				if(userInfos.network == "137"){
+					var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
+					var reward = 0;
+					var game;
+					var user;
 
-				for(var i=0; i<rewardList.length; i++){
-					if(rewardList[i] > 0){
-						await contract.methods.Games(rewardList[i]).call()
-							.then(function(receipt){
-								game = receipt;
-							});	
+					for(var i=0; i<rewardList.length; i++){
+						if(rewardList[i] > 0){
+							await contract.methods.Games(rewardList[i]).call()
+								.then(function(receipt){
+									game = receipt;
+								});	
 
-						user = await contract.methods.users(rewardList[i], userInfos.account).call()
-						reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
+							user = await contract.methods.users(rewardList[i], userInfos.account).call()
+							reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
+						}
 					}
+					userInfos.rewards = parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
 				}
-				userInfos.rewards = parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
 			}
 		}
 	}
