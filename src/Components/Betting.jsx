@@ -64,7 +64,8 @@ const Betting = ({userInfos, idCurrentGame}) => {
 
 			var playerState = parseInt(userAmount.amount);
 			if(playerState > 0){
-				playerState = "IN : " + await web3.utils.fromWei(userAmount.amount, 'ether') 
+				if(userAmount.poolChoice == 0)	playerState = "DOWN : " + await web3.utils.fromWei(userAmount.amount, 'ether')
+				else	playerState = "UP : " + await web3.utils.fromWei(userAmount.amount, 'ether') + " MATIC"
 			}else{
 				if(Math.floor((previousTime - Math.floor(Date.now()/1000))/60) < 0){
 					playerState = "OUT"

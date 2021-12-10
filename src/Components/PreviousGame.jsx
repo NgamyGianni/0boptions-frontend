@@ -38,6 +38,9 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 			}
 
 			var userGame = await contract.methods.users(currentGameId, userInfos.account).call();
+			var poolChoice = userGame.poolChoice
+			if(poolChoice == 1)	poolChoice = "UP"
+			else	poolChoice = "DOWN"
 
 			statusGame = "Closed"
 			setGameInfos({
@@ -50,7 +53,7 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 				PriceEnd: (game.priceEnd / 10 ** 8).toFixed(3),
 				CurrentPrice: currentPrice.toFixed(3), 
 				CurrentGameId: currentGameId,
-				playerState: parseInt(userGame.amount) > 0 ? "IN : " + await web3.utils.fromWei(userGame.amount, 'ether') + " MATIC": "OUT",
+				playerState: parseInt(userGame.amount) > 0 ? poolChoice + " : " + await web3.utils.fromWei(userGame.amount, 'ether') + " MATIC": "OUT",
 				TimeLeft: String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min,
 				winner: (game.priceEnd / 10 ** 8) > priceStart ? "UP" : "DOWN",
 			})
