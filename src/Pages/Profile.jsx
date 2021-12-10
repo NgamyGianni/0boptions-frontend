@@ -43,6 +43,15 @@ const Profile = () => {
 			
 			if(selectedAccount !== ""){
 
+				setUserInfos({
+					account: selectedAccount,
+					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
+					network: await web3.eth.net.getId(),
+					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
+					status: "connected",
+				});
+			}
+			if(userInfos.network == "137"){
 				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
 				var reward = 0;
 				var game;
@@ -59,21 +68,13 @@ const Profile = () => {
 						reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
 					}
 				}
-
-				setUserInfos({
-					account: selectedAccount,
-					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
-					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3),
-					network: await web3.eth.net.getId(),
-					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
-					status: "connected",
-				});
+				userInfos.rewards = parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
 			}
 		}
 	}
 
 	async function getData(){
-		if(selectedAccount !== ""){
+		if(selectedAccount !== "" && userInfos.network == "137"){
 			console.log(selectedAccount)
 			var reward = 0;
 			var cpt = (await contract.methods.getUserGames(selectedAccount).call()).length;
@@ -115,11 +116,18 @@ const Profile = () => {
 				reward: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3)
 			});
 			console.log(profileInfos)
+		}else{
+			setProfileInfos({
+				rounds: 0,
+				winRate: 0,
+				netWinnings: 0,
+				reward: 0
+			});
 		}
 	}
 
 	async function reward(){
-		await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount});
+		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount});
 	}
 
 	useEffect(() => {
