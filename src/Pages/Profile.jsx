@@ -146,7 +146,7 @@ const Profile = () => {
 
 const Main = styled.main`
 	height: 100vh;
-	width: 100%;
+	width: 100vw;
 	background: #212429;
 `
 
