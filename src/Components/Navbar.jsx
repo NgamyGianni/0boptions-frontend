@@ -12,7 +12,7 @@ const Navbar = ({userInfos, page}) => {
 			</Title>
 			<Tabs>
  				<Tab className={page=="Homepage" ? "active":""}>
- 					<LinkToPage to="/">Binary Options</LinkToPage>
+ 					<LinkToPage to="/">Prediction Market</LinkToPage>
  				</Tab>
  				<Tab className={page=="Profile" ? "active":""}>
  					<LinkToPage to="/profile" >Profile</LinkToPage>
