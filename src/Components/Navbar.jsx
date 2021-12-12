@@ -8,7 +8,7 @@ const Navbar = ({userInfos, page}) => {
 		<Header>
 			<Title>
 				<img src={require("../logo.jpg").default} style={{width:"20%"}} alt="no image"/>
-				<TitleText>Automated binary options maker</TitleText>
+				<TitleText>Automated prediction market maker</TitleText>
 			</Title>
 			<Tabs>
  				<Tab className={page=="Homepage" ? "active":""}>
