@@ -106,9 +106,15 @@ const Homepage = () => {
 				<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
 				<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/>
 			</Container>
-			<Reward>
+			<Reward style={{"margin-top": "1%"}}>
 				<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
 				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
+			</Reward>
+			<Reward>
+				<RewardButton onClick={() => window.open('https://discord.gg/dPHgRPgH')}>Join our Discord Server</RewardButton>
+			</Reward>
+			<Reward>
+				<RewardButton onClick={() =>window.open('https://polygonscan.com/address/0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB')}>View on Polygonscan</RewardButton>
 			</Reward>
 		</Main>
 	)
@@ -139,7 +145,6 @@ const LoginButton = styled.button`
 
 const Reward = styled.div`
 	margin-left: 40%;
-	margin-top: 11%;
 	grid-area: reward;
 	background-color: #191b1f;
 	border: 1px solid #191b1f;
