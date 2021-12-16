@@ -86,6 +86,38 @@ const Homepage = () => {
 		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserWins(selectedAccount).call()).send({from: selectedAccount});
 	}
 
+	async function switchEthereumChain() {
+	    try {
+	      await window.ethereum.request({
+	        method: 'wallet_switchEthereumChain',
+	        params: [{ chainId: '0x89' }],
+	      });
+	    } catch (e) {
+	      if (e.code === 4902) {
+	        try {
+	          await window.ethereum.request({
+	            method: 'wallet_addEthereumChain',
+	            params: [
+	              {
+	                chainId: '0x89',
+	                chainName: 'Polygon Mainnet',
+	                nativeCurrency: {
+	                  name: 'Polygon',
+	                  symbol: 'MATIC',
+	                  decimals: 18
+	                },
+	                blockExplorerUrls: ['https://explorer.matic.network/'],
+	                rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+	              },
+	            ],
+	          });
+	        } catch (addError) {
+	          console.error(addError);
+	        }
+	      }
+	    }
+	  }
+
 	useEffect(() => {
 		logAccount();
 		setTimeout(() => {  getData(); }, 1000);
@@ -96,6 +128,9 @@ const Homepage = () => {
 			window.ethereum.on("accountsChanged", () => {
 				window.location.reload()
 			})
+			if(web3.eth.net.getId() != "137"){
+				switchEthereumChain();
+			}
 		}
 	}, [selectedAccount, idCurrentGame])
 	return (
