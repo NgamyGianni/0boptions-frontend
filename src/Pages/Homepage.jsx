@@ -123,14 +123,17 @@ const Homepage = () => {
 		setTimeout(() => {  getData(); }, 1000);
 		if (window.ethereum) {
 			window.ethereum.on("chainChanged", () => {
+				if(web3.eth.net.getId() != "137"){
+					switchEthereumChain();
+				}
 				window.location.reload()
 			})
 			window.ethereum.on("accountsChanged", () => {
+				if(web3.eth.net.getId() != "137"){
+					switchEthereumChain();
+				}
 				window.location.reload()
 			})
-			if(web3.eth.net.getId() != "137"){
-				switchEthereumChain();
-			}
 		}
 	}, [selectedAccount, idCurrentGame])
 	return (
