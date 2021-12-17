@@ -155,7 +155,7 @@ const Homepage = () => {
 				</Reward>
 				: ""}
 				<Reward style={userInfos.network == "137" ? {} : {"margin-top": "15%"}}>
-					<RewardButton onClick={() => window.open('https://discord.gg/dPHgRPgH')}>Join our Discord Server</RewardButton>
+					<RewardButton onClick={() => window.open('https://discord.gg/8YNB9yMNnm')}>Join our Discord Server</RewardButton>
 				</Reward>
 				<Reward>
 					<RewardButton onClick={() =>window.open('https://polygonscan.com/address/0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB')}>View on Polygonscan</RewardButton>
