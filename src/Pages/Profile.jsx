@@ -10,7 +10,7 @@ const Profile = () => {
 
 	const [userInfos, setUserInfos] = useState({account: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
 					balance: "0",
-					network: "Not connected",
+					network: "137",
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
 				});
 
