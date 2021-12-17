@@ -70,11 +70,11 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 			<Up style={gameInfos.winner === "UP" ? {} : {background:"linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%)", color:"rgb(84, 36, 50)", border: "3px solid rgb(84, 36, 50)"}}>UP x{gameInfos.Pool1Payout} Payout</Up>
 			<StatsContainer>
 				<Stats>
-					<Key>Closed price</Key>
+					<Key>Closed ETH price</Key>
 					<Value style={gameInfos.winner === "UP" ? {border: "3px solid rgb(39, 255, 96)"} : {border: "3px solid rgb(255, 67, 67)"}}>{gameInfos.PriceEnd} $</Value>
 				</Stats>
 				<Stats>
-					<Key>Locked price</Key>
+					<Key>Locked ETH price</Key>
 					<Value>{gameInfos.PriceStart} $</Value>
 				</Stats>
 				<Stats>

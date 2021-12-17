@@ -134,24 +134,33 @@ const Homepage = () => {
 		}
 	}, [selectedAccount, idCurrentGame])
 	return (
-		<Main>
-			<Navbar userInfos={userInfos} page="Homepage"/>
-			<Container>
-				<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous}/>
-				<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
-				<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/>
-			</Container>
-			<Reward style={{"margin-top": "1%"}}>
-				<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
-				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
-			</Reward>
-			<Reward>
-				<RewardButton onClick={() => window.open('https://discord.gg/dPHgRPgH')}>Join our Discord Server</RewardButton>
-			</Reward>
-			<Reward>
-				<RewardButton onClick={() =>window.open('https://polygonscan.com/address/0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB')}>View on Polygonscan</RewardButton>
-			</Reward>
-		</Main>
+			<Main>
+				<Navbar userInfos={userInfos} page="Homepage"/>
+				{userInfos.network == "137" ? 
+				<Container>
+					<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous}/>
+					<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
+					<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/>
+				</Container>
+				: 
+				<Container style={{"margin-top": "15%", "flex-direction": "column"}}>
+					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
+					<RewardText>Click below to switch networks.</RewardText>
+					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
+				</Container>}
+				{userInfos.network == "137" ?
+				<Reward style={{"margin-top": "1%"}}>
+					<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
+					<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
+				</Reward>
+				: ""}
+				<Reward style={userInfos.network == "137" ? {} : {"margin-top": "15%"}}>
+					<RewardButton onClick={() => window.open('https://discord.gg/dPHgRPgH')}>Join our Discord Server</RewardButton>
+				</Reward>
+				<Reward>
+					<RewardButton onClick={() =>window.open('https://polygonscan.com/address/0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB')}>View on Polygonscan</RewardButton>
+				</Reward>
+			</Main>
 	)
 }
 

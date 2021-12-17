@@ -10,7 +10,6 @@ const CurrentGame = ({userInfos, idCurrentGame}) => {
 		const [gameInfos, setGameInfos] = useState("");
 
 	async function getGameInfos(idGame){
-			await window.ethereum.enable();
 			var game;
 			var statusGame;
 			var currentPrice;
@@ -82,11 +81,11 @@ const CurrentGame = ({userInfos, idCurrentGame}) => {
 			<Up style={gameInfos.State === "UP" ? {} : {background:"linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%)", color:"rgb(84, 36, 50)", border: "3px solid rgb(84, 36, 50)"}}>UP x{gameInfos.Pool1Payout} Payout</Up>
 			<StatsContainer>
 				<Stats>
-					<Key>Current price</Key>
+					<Key>Current ETH price</Key>
 					<Value style={gameInfos.State === "UP" ? {border: "3px solid rgb(39, 255, 96)"} : {border: "3px solid rgb(255, 67, 67)"}}>{gameInfos.CurrentPrice} $</Value>
 				</Stats>
 				<Stats>
-					<Key>Locked price</Key>
+					<Key>Locked ETH price</Key>
 					<Value>{gameInfos.priceStart} $</Value>
 				</Stats>
 				<Stats>

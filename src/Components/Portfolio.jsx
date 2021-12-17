@@ -7,13 +7,12 @@ const Portfolio = ({userInfos}) => {
 	let res = tmp.substring(0, 5) + "..." + tmp.substring((tmp.length)-4);
 	return (
 		<Container>
-			<Currency style={userInfos.network == "137" ? {} : {background:"rgb(255, 67, 67)", color: "white", width: "50%"}}>
+			<Currency style={userInfos.network == "137" ? {} : {background:"rgb(255, 67, 67)", color: "white", width: "100%", "text-align": "center"}}>
 				{userInfos.network == "137" ? 
 				"Polygon" :  "Wrong network"}
 			</Currency>
-			<Money>{userInfos.network == "137" ? 
-				parseFloat(userInfos.balance).toFixed(3) + "MATIC" :  ""}</Money>
-			<Address>{res}</Address>
+			{userInfos.network == "137" ? <Money>{parseFloat(userInfos.balance).toFixed(3)} MATIC</Money> :  ""}
+			{userInfos.network == "137" ? <Address>{res}</Address> : ""}
 		</Container>
 	)
 }

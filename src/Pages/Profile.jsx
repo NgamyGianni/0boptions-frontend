@@ -72,7 +72,7 @@ const Profile = () => {
 	}
 
 	async function getData(){
-		if(selectedAccount !== "" && userInfos.network == 137){
+		if(selectedAccount !== "" && userInfos.network == "137"){
 			var reward = 0;
 			var cpt = (await contract.methods.getUserGames(selectedAccount).call()).length;
 			var netWinnings;
@@ -153,6 +153,7 @@ const Profile = () => {
 	return (
 		<Main>
 			<Navbar userInfos={userInfos} page="Profile"/>
+			{userInfos.network == "137" ? 
 			<ContainerGen>
 				<Container>
 					<StatsContainer>
@@ -171,10 +172,20 @@ const Profile = () => {
 					</Stats>
 				</Container>
 			</ContainerGen>
+			: 
+			<ContainerGen style={{"margin-top": "15%", "flex-direction": "column"}}>
+					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
+					<RewardText>Click below to switch networks.</RewardText>
+					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
+			</ContainerGen>
+			}
+			{userInfos.network == "137" ?
 			<Reward>
 				<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
 				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
 			</Reward>
+			:""
+			}
 		</Main>
 	)
 }
