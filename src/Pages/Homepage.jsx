@@ -5,6 +5,12 @@ import CurrentGame from "../Components/CurrentGame"
 import PreviousGame from "../Components/PreviousGame"
 import Navbar from "../Components/Navbar"
 import Web3 from "web3"
+import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js"
+import SwiperCore, { Navigation, Scrollbar } from "swiper"
+import "swiper/swiper-bundle.css"
+import "swiper/swiper.min.css"
+
+SwiperCore.use([Navigation, Scrollbar])
 
 const Homepage = () => {
 	const web3 = new Web3(window.ethereum)
@@ -343,11 +349,29 @@ const Homepage = () => {
 	return (
 		<Main>
 			<Navbar userInfos={userInfos} page="Homepage" />
+
 			{userInfos.network == "137" ? (
 				<Container>
-					<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous} />
-					<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current} />
-					<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next} />
+					<Swiper
+						spaceBetween={30}
+						scrollbar={{
+							hide: false
+						}}
+						slidesPerView={2}
+						navigation={true}
+						onSlideChange={() => console.log("slide change")}
+						onSwiper={(swiper) => console.log(swiper)}>
+						<SwiperSlide>
+							<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous} />
+						</SwiperSlide>
+						<SwiperSlide>
+							<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current} />
+						</SwiperSlide>
+
+						<SwiperSlide>
+							<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next} />
+						</SwiperSlide>
+					</Swiper>
 				</Container>
 			) : (
 				<Container style={{ "margin-top": "15%", "flex-direction": "column" }}>
@@ -397,8 +421,7 @@ const Container = styled.div`
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	gap: 5%;
-	padding: 0 4rem;
+	margin-top: 3rem;
 `
 
 const LoginButton = styled.button`
