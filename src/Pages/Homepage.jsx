@@ -170,7 +170,19 @@ const Homepage = () => {
 const Main = styled.main`
 	height: 100vh;
 	width: 100vw;
-	background: #212429;
+	transform: unset;
+    background: radial-gradient(150.6% 98.22% at 48.06% 0%, rgba(130, 71, 229, 0.6) 0%, rgba(200, 168, 255, 0) 100%), rgb(31, 33, 40);
+    background-image: radial-gradient(150.6% 98.22% at 48.06% 0%, rgba(130, 71, 229, 0.6) 0%, rgba(200, 168, 255, 0) 100%), initial;
+    background-position-x: initial, initial;
+    background-position-y: initial, initial;
+    background-size: initial, initial;
+    background-repeat-x: initial, initial;
+    background-repeat-y: initial, initial;
+    background-attachment: initial, initial;
+    background-origin: initial, initial;
+    background-clip: initial, initial;
+    background-color: rgb(31, 33, 40);
+    background-blend-mode: overlay, normal;
 `
 
 const Container = styled.div`
