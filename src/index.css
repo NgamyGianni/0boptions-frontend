@@ -3,3 +3,14 @@
 	margin: 0;
 	box-sizing: border-box;
 }
+
+.swiper-wrapper{
+	display:flex;
+	gap:10px;
+	transition-duration: 0ms;
+    transform: translate3d(-1003px, 0px, 0px);
+}
+
+.swiper-container-horizontal>.swiper-scrollbar{
+	top:13%;
+}

@@ -3,10 +3,16 @@ import styled from "styled-components"
 import Betting from "../Components/Betting"
 import CurrentGame from "../Components/CurrentGame"
 import PreviousGame from "../Components/PreviousGame"
-import Navbar from "../Components/Navbar"
+import Navbar1 from "../Components/Navbar"
 import Web3 from 'web3'
+import SwiperCore, { Scrollbar } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import "swiper/swiper.min.css";
+import "swiper/components/scrollbar/scrollbar.min.css";
+
 
 const Homepage = () => {
+	SwiperCore.use([Scrollbar]);
 	const web3 = new Web3(window.ethereum);
 	let abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_lastGame","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_changeCurrentGame","type":"event"},{"anonymous":false,"inputs":[],"name":"_initCycle","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinDown","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinUp","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256[]","name":"_game","type":"uint256[]"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_reward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_address","type":"address"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_rewardAdmin","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"update","type":"uint256"}],"name":"_setIntervalTime","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_updateTreasury","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"Games","outputs":[{"internalType":"uint256","name":"upAmount","type":"uint256"},{"internalType":"uint256","name":"downAmount","type":"uint256"},{"internalType":"uint256","name":"totalAmount","type":"uint256"},{"internalType":"uint256","name":"rewardAmount","type":"uint256"},{"internalType":"uint256","name":"rewardPoolAmount","type":"uint256"},{"internalType":"bool","name":"rewardCalculated","type":"bool"},{"internalType":"uint256","name":"endTimestamp","type":"uint256"},{"internalType":"int256","name":"priceEnd","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NextCurrentGame","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentGameId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesRate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentPrice","outputs":[{"internalType":"int256","name":"_price","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserAvailableWins","outputs":[{"internalType":"uint256[]","name":"_winGames","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserGames","outputs":[{"internalType":"uint256[]","name":"games","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserTotalAmount","outputs":[{"internalType":"uint256","name":"amountGames","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserWinAmount","outputs":[{"internalType":"uint256","name":"_winAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserWins","outputs":[{"internalType":"uint256[]","name":"_winGames","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"initCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"intervalSeconds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"idGame","type":"uint256"},{"internalType":"address","name":"_address","type":"address"}],"name":"isWinner","outputs":[{"internalType":"bool","name":"_isWinner","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"joinDown","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"joinUp","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"idGames","type":"uint256[]"}],"name":"reward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"_address","type":"address"}],"name":"rewardAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_intervalSeconds","type":"uint256"}],"name":"setIntervalSeconds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userGames","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"poolChoice","type":"uint8"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"}];
 	let contract = new web3.eth.Contract(abi, "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB");
@@ -138,13 +144,22 @@ const Homepage = () => {
 	}, [selectedAccount, idCurrentGame])
 	return (
 			<Main>
-				<Navbar userInfos={userInfos} page="Homepage"/>
+				<Navbar1 userInfos={userInfos} page="Homepage"/>
 				{userInfos.network == "137" ? 
-				<Container>
-					<PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous}/>
-					<CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
-					<Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/>
-				</Container>
+				<Swiper
+				initialSlide={5}
+				scrollbar
+								slidesPerView={3} centeredSlides={false} grabCursor={true} spaceBetween={30} pagination={{
+				  "clickable": true
+				}}>
+					      		<SwiperSlide><PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous-3 >= 0 ? idCurrentGame.previous-3 : idCurrentGame.previous}/></SwiperSlide>
+					      		<SwiperSlide><PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous-2 >= 0 ? idCurrentGame.previous-2 : idCurrentGame.previous}/></SwiperSlide>
+					      		<SwiperSlide><PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous-1 >= 0 ? idCurrentGame.previous-1 : idCurrentGame.previous}/></SwiperSlide>
+					      		<SwiperSlide><PreviousGame userInfos={userInfos} idCurrentGame={idCurrentGame.previous}/></SwiperSlide>
+					      		<SwiperSlide><CurrentGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/></SwiperSlide>
+								<SwiperSlide><Betting userInfos={userInfos} idCurrentGame={idCurrentGame.next}/></SwiperSlide>
+			    </Swiper>
+
 				: 
 				<Container style={{"margin-top": "15%", "flex-direction": "column"}}>
 					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
