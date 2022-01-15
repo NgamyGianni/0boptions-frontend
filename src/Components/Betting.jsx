@@ -31,7 +31,7 @@ const Betting = ({userInfos, idCurrentGame}) => {
 	}
 
 	async function getGameInfos(idGame){
-			await window.ethereum.enable();
+			//await window.ethereum.enable();
 			var game;
 			var statusGame;
 			var currentPrice;
@@ -74,27 +74,29 @@ const Betting = ({userInfos, idCurrentGame}) => {
 				}
 			}
 			
-			statusGame = "Next"
 			setGameInfos({
 				Pool1Amount : await web3.utils.fromWei(game.upAmount, 'ether'),
 				Pool0Amount : await web3.utils.fromWei(game.downAmount, 'ether'),
 				Pool1Payout: parseFloat(game.upAmount) > 0 ? ((parseFloat(game.upAmount)+parseFloat(game.downAmount))/parseFloat(game.upAmount)).toFixed(2) : "1.00",
 				Pool0Payout: parseFloat(game.downAmount) > 0 ? ((parseFloat(game.upAmount)+parseFloat(game.downAmount))/parseFloat(game.downAmount)).toFixed(2) : "1.00",
-				status: statusGame,
 				priceStart : priceStart.toFixed(3),
 				CurrentPrice: currentPrice.toFixed(3), 
 				CurrentGameId: currentGameId,
 				playerState: playerState,
+				previousTime: previousTime,
+				min: min,
 				TimeLeft: Math.floor((previousTime - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((previousTime - Math.floor(Date.now()/1000))/60)) + " : " + min : "Locked"
 			})
 	}
+	const [counter, setCounter] = useState(0)
 	useEffect(() => {
-		setTimeout(() => {  getGameInfos(idCurrentGame); }, 1000);
-	},[gameInfos, idCurrentGame]);
+		getGameInfos(idCurrentGame);
+		setTimeout(() => {setCounter(counter+1);}, 1000)
+	},[counter]);
 	return (
 		<Container>
 			<StatusContainer>
-				<State>{gameInfos.status}</State>
+				<State>Next</State>
 				<Time>{gameInfos.TimeLeft}</Time>
 				<Id> #{gameInfos.CurrentGameId}</Id>
 			</StatusContainer>

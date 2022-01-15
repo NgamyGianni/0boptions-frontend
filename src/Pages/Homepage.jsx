@@ -89,7 +89,7 @@ const Homepage = () => {
 	}
 
 	async function reward(){
-		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserWins(selectedAccount).call()).send({from: selectedAccount});
+		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount});
 	}
 
 	async function switchEthereumChain() {
@@ -123,10 +123,18 @@ const Homepage = () => {
 	      }
 	    }
 	  }
-
+	const [counter, setCounter] = useState(0)
+	const [data, setData] = useState(0)
 	useEffect(() => {
 		logAccount();
-		setTimeout(() => {  getData(); }, 1000);
+		setTimeout(() => {setCounter(counter+1);}, 1000)
+	}, [counter])
+
+	useEffect(() => {
+		getData();
+	}, [counter])
+
+	useEffect(() => {
 		if (window.ethereum) {
 			window.ethereum.on("chainChanged", () => {
 				if(web3.eth.net.getId() != "137"){
@@ -141,7 +149,7 @@ const Homepage = () => {
 				window.location.reload()
 			})
 		}
-	}, [selectedAccount, idCurrentGame])
+	}, [selectedAccount, userInfos])
 	return (
 			<Main>
 				<Navbar1 userInfos={userInfos} page="Homepage"/>
