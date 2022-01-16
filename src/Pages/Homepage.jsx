@@ -196,6 +196,11 @@ const Homepage = () => {
 						</RewardButton>
 					</Reward>
 				</RewardsContainer>
+				<RewardsContainer style={{marginTop: "3%", marginLeft: "90%"}}>
+					<RewardButton onClick={() => window.open("https://twitter.com/0bLabs?ref_src=twsrc%5Etfw")}>
+						<img src={require("../output-onlinepngtools.png").default} style={{width: "15%"}} alt="no image"/>
+					</RewardButton>
+				</RewardsContainer>
 			</ButtonsContainer>
 			</Main>
 	)
