@@ -68,7 +68,7 @@ const Homepage = () => {
 
 				setUserInfos({
 					account: selectedAccount,
-					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')).toFixed(3),
+					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')),
 					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
 					network: await web3.eth.net.getId(),
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
@@ -170,22 +170,33 @@ const Homepage = () => {
 
 				: 
 				<Container style={{"margin-top": "15%", "flex-direction": "column"}}>
-					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
-					<RewardText>Click below to switch networks.</RewardText>
-					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
+					<RewardTextNo>Make sure Metamask is installed and connected to Polygon's network.</RewardTextNo>
+					<RewardTextNo>Click below to switch networks.</RewardTextNo>
+					<RewardButtonNo style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButtonNo>
 				</Container>}
-				{userInfos.network == "137" ?
-				<Reward style={{"margin-top": "1%"}}>
-					<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
-					<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
-				</Reward>
-				: ""}
-				<Reward style={userInfos.network == "137" ? {} : {"margin-top": "15%"}}>
-					<RewardButton onClick={() => window.open('https://discord.gg/8YNB9yMNnm')}>Join our Discord Server</RewardButton>
-				</Reward>
-				<Reward>
-					<RewardButton onClick={() =>window.open('https://polygonscan.com/address/0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB')}>View on Polygonscan</RewardButton>
-				</Reward>
+				<ButtonsContainer>
+				{userInfos.network == "137" ? (<RewardText>{userInfos.rewards > 0 ? userInfos.rewards : 0} MATIC</RewardText>):("")}
+				<RewardsContainer>
+					<Reward>
+						<RewardButton onClick={() => window.open("https://discord.gg/8YNB9yMNnm")}>Join our Discord Server</RewardButton>
+					</Reward>
+					{userInfos.network == "137" ? (
+						<Reward>
+							<RewardButton onClick={() => reward()}>
+								<span>Collect Rewards</span>
+								<div class="liquid"></div>
+							</RewardButton>
+						</Reward>
+					) : (
+						""
+					)}
+					<Reward>
+						<RewardButton onClick={() => window.open("https://polygonscan.com/address/0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB")}>
+							View on Polygonscan
+						</RewardButton>
+					</Reward>
+				</RewardsContainer>
+			</ButtonsContainer>
 			</Main>
 	)
 }
@@ -225,7 +236,7 @@ const LoginButton = styled.button`
 	font-family: Inter,sans-serif;
 `
 
-const Reward = styled.div`
+const RewardNo = styled.div`
 	margin-left: 40%;
 	grid-area: reward;
 	background-color: #191b1f;
@@ -238,7 +249,7 @@ const Reward = styled.div`
 	align-items: center;
 `
 
-const RewardText = styled.div`
+const RewardTextNo = styled.div`
 	color: rgb(149, 177, 254);
 	padding: 0.5rem;
 	border-radius: 0.5rem;
@@ -247,7 +258,7 @@ const RewardText = styled.div`
 	font-family: Inter,sans-serif;
 `
 
-const RewardButton = styled.button`
+const RewardButtonNo = styled.button`
 	font-size: 100%;
 	color: rgb(84, 36, 50);
 	font-family: 'Inter custom',sans-serif;
@@ -286,6 +297,154 @@ const RewardButton = styled.button`
 	transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
 	&:hover {
 		background-image: linear-gradient(90deg, rgb(255, 150, 165) 0%, rgb(255, 185, 140) 100%);
+	}
+`
+
+const Reward = styled.div`
+	border: 1px solid #191b1f;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`
+
+const RewardText = styled.div`
+	color: rgb(149, 177, 254);
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	text-align: center;
+	font-size: 1.2rem;
+	font-family: Inter, sans-serif;
+	background-color: #191b1f;
+	margin: auto;
+	position: relative;
+	bottom: -10px;
+`
+
+const RewardButton = styled.button`
+	font-size: 100%;
+	color: rgb(84, 36, 50);
+	font-family: "Inter custom", sans-serif;
+	background-image: linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);
+	padding: 16px;
+	width: 100%;
+	font-weight: 500;
+	text-align: center;
+	border-radius: 20px;
+	outline: none;
+	border: 1px solid #191b1f;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+	align-items: center;
+	cursor: pointer;
+	position: relative;
+	z-index: 1;
+	&:disabled {
+		cursor: auto;
+		pointer-events: none;
+	}
+	will-change: transform;
+	transition: transform 450ms ease;
+	transform: perspective(1px) translateZ(0);
+	> * {
+		user-select: none;
+	}
+	> a {
+		text-decoration: none;
+	}
+	transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
+	&:hover {
+		background-image: linear-gradient(90deg, rgb(255, 150, 165) 0%, rgb(255, 185, 140) 100%);
+	}
+`
+
+const ButtonsContainer = styled.div`
+	display: flex;
+	width: 100%;
+	margin-top: 1rem;
+	flex-direction: column;
+`
+
+const RewardsContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+	align-items: center;
+	justify-content: center;
+	background-color: #191b1f;
+	margin: auto;
+	padding: 0.5rem;
+	border-radius: 1rem;
+`
+
+const SpecialReward = styled.button`
+	position: relative;
+	padding: 16px;
+	display: block;
+	text-decoration: none;
+	width: 100%;
+	overflow: hidden;
+	border-radius: 20px;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	&:disabled {
+		cursor: auto;
+		pointer-events: none;
+	}
+	& > span {
+		position: relative;
+		color: rgb(84, 36, 50);
+		font-size: 1.1rem;
+		font-family: "Inter custom", sans-serif;
+		z-index: 1;
+	}
+	& > .liquid {
+		position: absolute;
+		top: -80px;
+		left: 0;
+		width: 200px;
+		height: 200px;
+		background: rgb(255, 150, 165);
+		box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+		transition: 0.5s;
+		border: none;
+		outline: none;
+		&::after,
+		&::before {
+			content: "";
+			width: 200%;
+			height: 200%;
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translate(-50%, -75%);
+			background: #fff;
+		}
+		&::before {
+			border-radius: 45%;
+			background: rgba(20, 20, 20, 1);
+			animation: animate 5s linear infinite;
+		}
+		&::after {
+			border-radius: 40%;
+			background: rgb(149, 177, 254);
+			animation: animate 10s linear infinite;
+		}
+	}
+	&:hover .liquid {
+		top: -120px;
+	}
+	@keyframes animate {
+		0% {
+			transform: translate(-50%, -75%) rotate(0deg);
+		}
+		100% {
+			transform: translate(-50%, -75%) rotate(360deg);
+		}
 	}
 `
 

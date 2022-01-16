@@ -10,7 +10,6 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 		const [gameInfos, setGameInfos] = useState({CurrentGameId: 0});
 
 	async function getGameInfos(idGame){
-			//await window.ethereum.enable();
 			var game;
 			var statusGame;
 			var currentPrice;
@@ -58,9 +57,11 @@ const PreviousGame = ({userInfos, idCurrentGame}) => {
 				winner: (game.priceEnd / 10 ** 8) > priceStart ? "UP" : "DOWN",
 			})
 	}
+	const [counter, setCounter] = useState(0)
 	useEffect(() => {
 		getGameInfos(idCurrentGame);
-	},[idCurrentGame]);
+		setTimeout(() => {setCounter(counter+1);}, 15000)
+	}, [counter])
 	return (
 		<Container style={gameInfos.winner === "UP" ? {border: "3px solid rgb(39, 255, 96)"} : {border: "3px solid rgb(255, 67, 67)"}}>
 			<StatusContainer>
