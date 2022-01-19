@@ -17,7 +17,7 @@ const Betting = ({userInfos, idCurrentGame}) => {
 
 		if(Boolean(inputAmount.current.value.match("^[0-9]*[.,]?[0-9]*$"))){
 			let betAmount = inputAmount.current.value.replace(",", ".")
-		 	await contract.methods.joinUp().send({from: userInfos.account, value: web3.utils.toWei(betAmount, "ether")});
+		 	await contract.methods.joinUp().send({from: userInfos.account, value: web3.utils.toWei(betAmount, "ether"), type: "0x0"});
 		 }
 	}
 
@@ -26,7 +26,7 @@ const Betting = ({userInfos, idCurrentGame}) => {
 
 		if(Boolean(inputAmount.current.value.match("^[0-9]*[.,]?[0-9]*$"))){
 			let betAmount = inputAmount.current.value.replace(",", ".")
-		 	await contract.methods.joinDown().send({from: userInfos.account, value: web3.utils.toWei(betAmount, "ether")});
+		 	await contract.methods.joinDown().send({from: userInfos.account, value: web3.utils.toWei(betAmount, "ether"), type: "0x0"});
 		 }
 	}
 

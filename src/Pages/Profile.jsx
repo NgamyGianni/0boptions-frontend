@@ -101,7 +101,7 @@ const Profile = () => {
 	}
 
 	async function reward(){
-		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount});
+		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount, type: "0x0"});
 	}
 
 	async function switchEthereumChain() {
