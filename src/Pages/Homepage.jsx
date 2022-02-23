@@ -306,24 +306,22 @@ const RewardButtonNo = styled.button`
 `
 
 const Reward = styled.div`
-	border: 1px solid #191b1f;
 	padding: 0.5rem;
 	border-radius: 0.5rem;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 `
 
 const RewardText = styled.div`
 	color: rgb(149, 177, 254);
 	padding: 0.5rem;
 	border-radius: 0.5rem;
-	text-align: center;
 	font-size: 1.2rem;
 	font-family: Inter, sans-serif;
 	background-color: #191b1f;
-	margin: auto;
 	position: relative;
+	margin-left: auto;
+    margin-right: auto;
 	bottom: -10px;
 `
 
@@ -375,11 +373,8 @@ const ButtonsContainer = styled.div`
 
 const RewardsContainer = styled.div`
 	display: flex;
-	justify-content: center;
-	gap: 2rem;
 	align-items: center;
 	justify-content: center;
-	background-color: #191b1f;
 	margin: auto;
 	padding: 0.5rem;
 	border-radius: 1rem;

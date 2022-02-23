@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/gauge",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/gauge.js",
+  "module": "../../esm/components/gauge.js",
+  "jsnext:main": "../../esm/components/gauge.js",
+  "typings": "gauge.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/card-footer",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/card-footer.js",
+  "module": "../../esm/components/card-footer.js",
+  "jsnext:main": "../../esm/components/card-footer.js",
+  "typings": "card-footer.d.ts"
+}

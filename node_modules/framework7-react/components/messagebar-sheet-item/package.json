@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/messagebar-sheet-item",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/messagebar-sheet-item.js",
+  "module": "../../esm/components/messagebar-sheet-item.js",
+  "jsnext:main": "../../esm/components/messagebar-sheet-item.js",
+  "typings": "messagebar-sheet-item.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-item-content",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-item-content.js",
+  "module": "../../esm/components/list-item-content.js",
+  "jsnext:main": "../../esm/components/list-item-content.js",
+  "typings": "list-item-content.d.ts"
+}

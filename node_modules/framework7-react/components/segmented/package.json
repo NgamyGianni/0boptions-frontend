@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/segmented",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/segmented.js",
+  "module": "../../esm/components/segmented.js",
+  "jsnext:main": "../../esm/components/segmented.js",
+  "typings": "segmented.d.ts"
+}

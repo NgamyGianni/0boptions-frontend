@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/actions-group",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/actions-group.js",
+  "module": "../../esm/components/actions-group.js",
+  "jsnext:main": "../../esm/components/actions-group.js",
+  "typings": "actions-group.d.ts"
+}

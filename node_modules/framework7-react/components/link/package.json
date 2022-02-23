@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/link",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/link.js",
+  "module": "../../esm/components/link.js",
+  "jsnext:main": "../../esm/components/link.js",
+  "typings": "link.d.ts"
+}

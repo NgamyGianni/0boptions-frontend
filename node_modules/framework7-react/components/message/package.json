@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/message",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/message.js",
+  "module": "../../esm/components/message.js",
+  "jsnext:main": "../../esm/components/message.js",
+  "typings": "message.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/messagebar-sheet-image",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/messagebar-sheet-image.js",
+  "module": "../../esm/components/messagebar-sheet-image.js",
+  "jsnext:main": "../../esm/components/messagebar-sheet-image.js",
+  "typings": "messagebar-sheet-image.d.ts"
+}
