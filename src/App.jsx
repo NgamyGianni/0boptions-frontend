@@ -3,13 +3,17 @@ import Profile from "./Pages/Profile"
 import Homepage from "./Pages/Homepage"
 import React from "react"
 
+import { NextUIProvider } from '@nextui-org/react';
+
 function App() {
 	return (
 		<div className="App">
-			<Routes>
-				<Route path="/" element={<Homepage />} />
-				<Route path="/profile" element={<Profile />} />
-			</Routes>
+			<NextUIProvider>
+				<Routes>
+					<Route path="/" element={<Homepage />} />
+					<Route path="/profile" element={<Profile />} />
+				</Routes>
+			</NextUIProvider>
 		</div>
 	)
 }

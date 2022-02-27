@@ -155,34 +155,17 @@ const Homepage = () => {
 	return (
 			<Main>
 				<Navbar1 userInfos={userInfos} page="Homepage"/>
-				<StatsContainer style={{"marginTop": "2%"}}>
-							<Stats>
-								<Key>Id</Key>
-								<Key>Pool size</Key>
-								<Key>Locked price</Key>
-								<Key>Current price</Key>
-							</Stats>
-							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
-						</StatsContainer>
+				{userInfos.network == "137" ? 
 				<div style={{"display" : "flex", "flex-direction": "row"}}>
-					<Container2>
-						<StatsContainer>
-							<Stats>
-								<Key>Id</Key>
-								<Key>Pool size</Key>
-								<Key>Locked price</Key>
-								<Key>Closed price</Key>
-							</Stats>
-							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current-1 >= 0 ? idCurrentGame.current-1 : idCurrentGame.current}/>
-							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current-2 >= 0 ? idCurrentGame.current-2 : idCurrentGame.current}/>
-							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current-3 >= 0 ? idCurrentGame.current-3 : idCurrentGame.current}/>
-							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current-4 >= 0 ? idCurrentGame.current-4 : idCurrentGame.current}/>
-							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current-5 >= 0 ? idCurrentGame.current-5 : idCurrentGame.current}/>
-						</StatsContainer>
-					</Container2>
+					<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
 					<LogsGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
 				</div>
-				
+				: 
+				<Container style={{"margin-top": "15%", "flex-direction": "column"}}>
+					<RewardTextNo>Make sure Metamask is installed and connected to Polygon's network.</RewardTextNo>
+					<RewardTextNo>Click below to switch networks.</RewardTextNo>
+					<RewardButtonNo style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButtonNo>
+				</Container>}
 				<ButtonsContainer>
 				{userInfos.network == "137" ? (<RewardText>{userInfos.rewards > 0 ? userInfos.rewards : 0} MATIC</RewardText>):("")}
 				<RewardsContainer>
@@ -204,6 +187,11 @@ const Homepage = () => {
 							View on Polygonscan
 						</RewardButton>
 					</Reward>
+				</RewardsContainer>
+				<RewardsContainer style={{marginTop: "3%", marginLeft: "90%"}}>
+					<RewardButton onClick={() => window.open("https://twitter.com/0bLabs?ref_src=twsrc%5Etfw")}>
+						<img src={require("../output-onlinepngtools.png").default} style={{width: "15%"}} alt="no image"/>
+					</RewardButton>
 				</RewardsContainer>
 			</ButtonsContainer>
 			</Main>
@@ -234,44 +222,6 @@ const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: 5%;
-`
-
-const StatsContainer = styled.div`
-	background-color: #191b1f;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	border-radius: 0.5rem;
-`
-
-const Stats = styled.div`
-	padding: 0.7rem;
-	border-radius: 0.5rem;
-	display: flex;
-	width: 100%;
-`
-
-const Key = styled.div`
-	background-color: rgb(33, 36, 41);
-	border : 1px solid rgb(33, 36, 41);
-	padding: 0.5rem;
-	border-radius: 0.5rem;
-	width:100%;
-	text-align: center;
-	color: rgb(149, 177, 254);
-`
-
-const Container2 = styled.div`
-	background-image: linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);
-	color: rgb(84, 36, 50);
-	margin-top: 0.5%;
-	width: 50%;
-	height: 60%;
-	border-radius: 1rem;
-	display: flex;
-	font-family: Inter,sans-serif;
-	flex-direction:column;
 `
 
 const LoginButton = styled.button`
@@ -409,6 +359,7 @@ const RewardButton = styled.button`
 const ButtonsContainer = styled.div`
 	display: flex;
 	width: 100%;
+	margin-top: 1rem;
 	flex-direction: column;
 `
 
