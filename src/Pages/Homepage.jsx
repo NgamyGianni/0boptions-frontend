@@ -5,12 +5,14 @@ import CurrentGame from "../Components/CurrentGame"
 import TableGames from "../Components/TableGames"
 import PreviousGame from "../Components/PreviousGame"
 import LogsGame from "../Components/LogsGame"
+import NextGame from "../Components/NextGame"
 import Navbar1 from "../Components/Navbar"
 import Web3 from 'web3'
 import SwiperCore, { Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/swiper.min.css";
 import "swiper/components/scrollbar/scrollbar.min.css";
+import { Progress, Text } from '@nextui-org/react';
 
 
 const Homepage = () => {
@@ -80,14 +82,34 @@ const Homepage = () => {
 		}
 	}
 	async function getData(){
+			var current;
+			var game;
+			var gamePred;
+
 			await contract.methods.currentGameId.call().call()
 				.then(function(receipt){
-					setIdCurrentGame({
-						previous: parseInt(receipt)-1,
-						current: parseInt(receipt),
-						next: parseInt(receipt)+1
-					});
+					current = parseInt(receipt)
 				});
+
+			await contract.methods.Games(current).call()
+				.then(function(receipt){
+					game = receipt
+				})
+
+			await contract.methods.Games(current-1).call()
+				.then(function(receipt){
+					gamePred = receipt
+				})
+
+			var min = String((game.endTimestamp - Math.floor(Date.now()/1000)) % 60);
+			if(min < 10)	min  = "0"+ min
+
+			setIdCurrentGame({
+						current: current,
+						game: game,
+						timeLeft: Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min : "Calculating",
+						timestampLeft:((Date.now()/1000) - gamePred.endTimestamp)*100/(game.endTimestamp - gamePred.endTimestamp),
+					});
 	}
 
 	async function reward(){
@@ -155,21 +177,45 @@ const Homepage = () => {
 	return (
 			<Main>
 				<Navbar1 userInfos={userInfos} page="Homepage"/>
-				<StatsContainer style={{"marginTop": "2%"}}>
+				<div style={{"justify-content": "center",
+	"text-align": "center"}}>
+				<Text
+    css={{
+      textGradient: '45deg, $yellow500 -20%, $red500 100%'
+    }}
+    weight="bold" color="gradient">{idCurrentGame.timeLeft}</Text>
+				<Progress value={idCurrentGame.timestampLeft} shadow color="gradient" status="primary"/>
+				</div>
+				<div style={{"display" : "flex", "flex-direction": "row"}}>
+				<StatsContainer style={{"marginTop": "0%", "width": "50%"}}>
 							<Stats>
 								<Key>Id</Key>
 								<Key>Pool size</Key>
+								<Key>Up payout</Key>
+								<Key>Down payout</Key>
 								<Key>Locked price</Key>
-								<Key>Current price</Key>
+								<Key>Closed price</Key>
 							</Stats>
 							<TableGames userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
-						</StatsContainer>
+				</StatsContainer>
+				<StatsContainer style={{"marginTop": "0%", "width": "50%"}}>
+							<Stats>
+								<Key>Id</Key>
+								<Key>Pool size</Key>
+								<Key>Up payout</Key>
+								<Key>Down payout</Key>
+							</Stats>
+							<NextGame userInfos={userInfos} idCurrentGame={idCurrentGame.current+1}/>
+				</StatsContainer>
+				</div>
 				<div style={{"display" : "flex", "flex-direction": "row"}}>
 					<Container2>
 						<StatsContainer>
 							<Stats>
 								<Key>Id</Key>
 								<Key>Pool size</Key>
+								<Key>Up payout</Key>
+								<Key>Down payout</Key>
 								<Key>Locked price</Key>
 								<Key>Closed price</Key>
 							</Stats>
