@@ -70,7 +70,7 @@ const LogsGame = ({userInfos, idCurrentGame}) => {
 	}
 	const [counter, setCounter] = useState(0)
 	useEffect(() => {
-		getGameInfos(idCurrentGame);
+		getGameInfos(idCurrentGame.current);
 		setTimeout(() => {setCounter(counter+1);}, 1000)
 	},[counter]);
 	return (
@@ -83,34 +83,34 @@ const LogsGame = ({userInfos, idCurrentGame}) => {
 					<Key>Type</Key>
 				</Stats>
 				<Stats>
-					<Value>#{gameInfos.CurrentGameId}</Value>
-					<Value>0xeD1d...2204</Value>
-					<Value>200 MATIC</Value>
-					<Value>Up</Value>
+					<Value>#{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 1 ?idCurrentGame.events[0].returnValues[1] : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 1 ? idCurrentGame.events[0].returnValues[0].substring(0, 5) + "..." + idCurrentGame.events[0].returnValues[0].substring((idCurrentGame.events[0].returnValues[0].length)-4) : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 1 ? web3.utils.fromWei(idCurrentGame.events[0].returnValues[2], 'ether') + " MATIC": ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 1 ? idCurrentGame.events[0].event.substring(5, idCurrentGame.events[0].event.length) : ""}</Value>
 				</Stats>
 				<Stats>
-					<Value>#{gameInfos.CurrentGameId}</Value>
-					<Value>0xeD1d...2204</Value>
-					<Value>10 MATIC</Value>
-					<Value>Down</Value>
+					<Value>#{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 2 ?idCurrentGame.events[1].returnValues[1] : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 2 ? idCurrentGame.events[1].returnValues[0].substring(0, 5) + "..." + idCurrentGame.events[1].returnValues[0].substring((idCurrentGame.events[1].returnValues[0].length)-4) : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 2 ? web3.utils.fromWei(idCurrentGame.events[1].returnValues[2], 'ether') + " MATIC": ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 2 ? idCurrentGame.events[1].event.substring(5, idCurrentGame.events[1].event.length) : ""}</Value>
 				</Stats>
 				<Stats>
-					<Value>#{gameInfos.CurrentGameId}</Value>
-					<Value>0xeD1d...2204</Value>
-					<Value>5 MATIC</Value>
-					<Value>Up</Value>
+					<Value>#{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 3 ?idCurrentGame.events[2].returnValues[1] : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 3 ? idCurrentGame.events[2].returnValues[0].substring(0, 5) + "..." + idCurrentGame.events[2].returnValues[0].substring((idCurrentGame.events[2].returnValues[0].length)-4) : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 3 ? web3.utils.fromWei(idCurrentGame.events[2].returnValues[2], 'ether') + " MATIC": ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 3 ? idCurrentGame.events[2].event.substring(5, idCurrentGame.events[2].event.length) : ""}</Value>
 				</Stats>
 				<Stats>
-					<Value>#{gameInfos.CurrentGameId}</Value>
-					<Value>0xeD1d...2204</Value>
-					<Value>30 MATIC</Value>
-					<Value>Up</Value>
+					<Value>#{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 4 ?idCurrentGame.events[3].returnValues[1] : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 4 ? idCurrentGame.events[3].returnValues[0].substring(0, 5) + "..." + idCurrentGame.events[3].returnValues[0].substring((idCurrentGame.events[3].returnValues[0].length)-4) : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 4 ? web3.utils.fromWei(idCurrentGame.events[3].returnValues[2], 'ether') + " MATIC": ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 4 ? idCurrentGame.events[3].event.substring(5, idCurrentGame.events[3].event.length) : ""}</Value>
 				</Stats>
 				<Stats>
-					<Value>#{gameInfos.CurrentGameId}</Value>
-					<Value>0xeD1d...2204</Value>
-					<Value>10 MATIC</Value>
-					<Value>Down</Value>
+					<Value>#{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 5 ?idCurrentGame.events[4].returnValues[1] : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 5 ? idCurrentGame.events[4].returnValues[0].substring(0, 5) + "..." + idCurrentGame.events[4].returnValues[0].substring((idCurrentGame.events[4].returnValues[0].length)-4) : ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 5 ? web3.utils.fromWei(idCurrentGame.events[4].returnValues[2], 'ether') + " MATIC": ""}</Value>
+					<Value>{idCurrentGame.events != "" && idCurrentGame.events != null && idCurrentGame.events.length >= 5 ? idCurrentGame.events[4].event.substring(5, idCurrentGame.events[4].event.length) : ""}</Value>
 				</Stats>
 				
 			</StatsContainer>

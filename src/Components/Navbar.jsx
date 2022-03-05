@@ -17,6 +17,12 @@ const Navbar = ({userInfos, page}) => {
  				<Tab className={page=="Profile" ? "active":""}>
  					<LinkToPage to="/profile" >Profile</LinkToPage>
  				</Tab>
+ 				<Tab className={page=="Quest" ? "active":""}>
+ 					<LinkToPage to="/quest">Quest</LinkToPage>
+ 				</Tab>
+ 				<Tab className={page=="Stacking" ? "active":""}>
+ 					<LinkToPage to="/stacking" >Stacking</LinkToPage>
+ 				</Tab>
  			</Tabs>
 			<Title style={{"margin-left": "3.5%"}}>
 				<img src={require("../pngaaa.com-4112190.png").default} style={{width:"15%"}} alt="no image"/>

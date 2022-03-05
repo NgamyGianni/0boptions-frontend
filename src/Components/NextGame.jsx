@@ -115,7 +115,7 @@ const NextGame = ({userInfos, idCurrentGame}) => {
 							<Button onClick={() => betUp()}>Join UP</Button>
 						</StatsContainer>
 		  			</Popup>
-		  			<Popup trigger={<Button onClick={() => betDown()} color="error">Down x{gameInfos.Pool1Payout} Payout</Button>}>
+		  			<Popup trigger={<Button onClick={() => betDown()} color="error">Down x{gameInfos.Pool0Payout} Payout</Button>}>
 						<StatsContainer>
 							<Stats>
 								<InputAmount ref={inputAmount} onKeyPress={(event) => {if (!/^[0-9]*[.,]?[0-9]*$/.test(event.key)) {event.preventDefault();}}} inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.0" minlength="1" maxlength="79" spellcheck="false" style={{width: "100%"}}/>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Navbar from "../Components/Navbar"
 import Web3 from 'web3'
+import { Button, Text } from '@nextui-org/react';
 
 const Profile = () => {
 	const web3 = new Web3(window.ethereum);
@@ -171,24 +172,24 @@ const Profile = () => {
 		<Main>
 			<Navbar userInfos={userInfos} page="Profile"/>
 			{userInfos.network == "137" ? 
-			<ContainerGen>
-				<Container>
-					<StatsContainer>
-						<Stats>
-							<Key>Win Rate</Key>
-							<Value>{profileInfos.winRate}</Value>
+				<ContainerGen>
+					<Container>
+						<StatsContainer>
+							<Stats>
+								<Key>Win Rate</Key>
+								<Value>{profileInfos.winRate}</Value>
+							</Stats>
+							<Stats>
+								<Key>Rounds</Key>
+								<Value>{profileInfos.rounds}</Value>
+							</Stats>
+						</StatsContainer>
+						<Stats style={{"margin-top":"20%"}}>
+								<Key>Net Winnings</Key>
+								<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings}</Value>
 						</Stats>
-						<Stats>
-							<Key>Rounds</Key>
-							<Value>{profileInfos.rounds}</Value>
-						</Stats>
-					</StatsContainer>
-					<Stats style={{"margin-top":"20%"}}>
-							<Key>Net Winnings</Key>
-							<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings}</Value>
-					</Stats>
-				</Container>
-			</ContainerGen>
+					</Container>
+				</ContainerGen>
 			: 
 			<ContainerGen style={{"margin-top": "15%", "flex-direction": "column"}}>
 					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
@@ -237,8 +238,8 @@ const Container = styled.div`
 	background-image: linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);
 	color: rgb(84, 36, 50);
 	margin-top: 5rem;
-	width: 400px;
-	height: 350px;
+	width: 50%;
+	height: 50%;
 	border-radius: 1rem;
 	display: flex;
 	flex-direction: column;
@@ -280,10 +281,8 @@ const Value = styled.div`
 
 const Reward = styled.div`
 	margin-left: 40%;
-	margin-top: 11%;
+	margin-top: 9%;
 	grid-area: reward;
-	background-color: #191b1f;
-	border: 1px solid #191b1f;
 	padding: 0.5rem;
 	border-radius: 0.5rem;
 	display: flex;
