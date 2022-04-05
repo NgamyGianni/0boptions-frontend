@@ -13,7 +13,7 @@ import SwiperCore, { Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/swiper.min.css";
 import "swiper/components/scrollbar/scrollbar.min.css";
-import { Progress, Text } from '@nextui-org/react';
+import { Progress, Text, Loading } from '@nextui-org/react';
 
 
 const Homepage = () => {
@@ -38,6 +38,10 @@ const Homepage = () => {
 	});
 	const [selectedAccount, setSelectedAccount] = useState("");
 
+	const [timeLeft, setTimeLeft] = useState("");
+
+	const [userReward, setUserReward] = useState({rewards: ""});
+
 	async function logAccount(){
 		let provider = window.ethereum;
 
@@ -58,26 +62,8 @@ const Homepage = () => {
 			
 			if(selectedAccount !== ""){
 
-				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
-				var reward = 0;
-				var game;
-				var user;
-
-				for(var i=0; i<rewardList.length; i++){
-					if(rewardList[i] > 0){
-						await contract.methods.Games(rewardList[i]).call()
-							.then(function(receipt){
-								game = receipt;
-							});	
-
-						user = await contract.methods.users(rewardList[i], userInfos.account).call()
-						reward += (user.amount*game.rewardAmount)/game.rewardPoolAmount
-					}
-				}
-
 				setUserInfos({
 					account: selectedAccount,
-					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')),
 					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
 					network: await web3.eth.net.getId(),
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
@@ -87,33 +73,20 @@ const Homepage = () => {
 		}
 	}
 	async function getData(){
-			var current;
-			var game;
-			var gamePred;
+		if(timeLeft !== ""){
+			let current = timeLeft.current;
+			let game = timeLeft.game;
 
-			await contract.methods.currentGameId.call().call()
-				.then(function(receipt){
-					current = parseInt(receipt)
-				});
+			let currentBlock = await web3.eth.getBlockNumber();
 
-			await contract.methods.Games(current).call()
-				.then(function(receipt){
-					game = receipt
-				})
-
-			await contract.methods.Games(current-1).call()
-				.then(function(receipt){
-					gamePred = receipt
-				})
-
-			var min = String((game.endTimestamp - Math.floor(Date.now()/1000)) % 60);
-			if(min < 10)	min  = "0"+ min
-
-			let currentBlock = await web3.eth.getBlockNumber()
-
-			let joinEvents = await contract.getPastEvents(
-			    {fromBlock: currentBlock - 1000, toBlock:currentBlock}
+			let joinEvents = await contract.getPastEvents('_joinUp',
+			    {fromBlock: currentBlock - 999}//, toBlock:currentBlock}
 			);
+
+			let joinDownEvents = await contract.getPastEvents('_joinDown',
+			    {fromBlock: currentBlock - 999}//, toBlock:currentBlock}
+			);
+
 
 			let events = [];
 
@@ -124,11 +97,72 @@ const Homepage = () => {
 			setIdCurrentGame({
 				current: current,
 				game: game,
-				timeLeft: Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min : "Calculating",
-				timestampLeft:((Date.now()/1000) - gamePred.endTimestamp)*100/(game.endTimestamp - gamePred.endTimestamp),
 				events : events.reverse()
 			});
-			
+		}
+	}
+
+	async function getTime(){
+		let current;
+		let game;
+		let gamePred;
+
+		await contract.methods.currentGameId.call().call()
+				.then(function(receipt){
+					current = parseInt(receipt)
+				});
+		await contract.methods.Games(current-1).call()
+				.then(function(receipt){
+					gamePred = receipt
+		})
+
+		await contract.methods.Games(current).call()
+				.then(function(receipt){
+					game = receipt
+				})
+
+		/*let min = String((game.endTimestamp - Math.floor(Date.now()/1000)) % 60);
+		if(min < 10)	min  = "0"+ min*/
+
+		setTimeLeft({
+			/*timeLeft: Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min : "Calculating",
+			timestampLeft:((Date.now()/1000) - gamePred.endTimestamp)*100/(game.endTimestamp - gamePred.endTimestamp),*/
+			gameEndTimestamp: game.endTimestamp,
+			gamePredEndTimestamp: gamePred.endTimestamp,
+			game: game,
+			gamePred: gamePred,
+			current: current
+		})
+	}
+
+	async function getReward(){
+		if(selectedAccount !== "" && await web3.eth.net.getId() == "137"){
+			var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
+			var reward = 0;
+			var game;
+			var user;
+
+			for(var i=0; i<rewardList.length; i++){
+				if(rewardList[i] > 0){
+					await contract.methods.Games(rewardList[i]).call()
+						.then(function(receipt){
+							game = receipt;
+						});	
+
+					user = await contract.methods.users(rewardList[i], userInfos.account).call()
+					reward += await (user.amount*game.rewardAmount)/game.rewardPoolAmount
+				}
+			}
+
+			setUserReward({
+				rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether'))
+			})
+		}
+		else{
+			setUserReward({
+				rewards: ""
+			})
+		}
 	}
 
 	async function reward(){
@@ -166,16 +200,20 @@ const Homepage = () => {
 	      }
 	    }
 	  }
-	const [counter, setCounter] = useState(0)
+	const [counterData, setCounterData] = useState(0)
+	const [counterTime, setCounterTime] = useState(0)
 	const [data, setData] = useState(0)
+	const [isLoaded, setIsLoaded] = useState(false)
+
 	useEffect(() => {
-		logAccount();
-		setTimeout(() => {setCounter(counter+1);}, 1000)
-	}, [counter])
+		if(userInfos.status !== "connected")	logAccount();	
+	}, [counterTime, selectedAccount])
 
 	useEffect(() => {
 		getData();
-	}, [counter])
+		if(idCurrentGame.game !== "")	setTimeout(() => {setCounterData(counterData+1);}, 15000)
+		else	setTimeout(() => {setCounterData(counterData+1);}, 2000)
+	}, [counterData])
 
 	useEffect(() => {
 		if (window.ethereum) {
@@ -193,15 +231,43 @@ const Homepage = () => {
 			})
 		}
 	}, [selectedAccount, userInfos])
+
+	const [timeLeftVar, setTimeLeftVar] = useState(0)
+	const [timeLeftTimestamp, setTimeLeftTimestamp] = useState(0)
+
+	useEffect(() => {
+		getTime();
+	}, [idCurrentGame.current])
+
+	useEffect(() => {
+		setTimeout(() => {setCounterTime(counterTime+1);}, 1000)
+
+		let min = String((timeLeft.gameEndTimestamp - Math.floor(Date.now()/1000)) % 60);
+		if(min < 10)	min  = "0"+ min
+
+		setTimeLeftVar(Math.floor((timeLeft.gameEndTimestamp - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((timeLeft.gameEndTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min : "Calculating")
+		setTimeLeftTimestamp(((Date.now()/1000) - timeLeft.gamePredEndTimestamp)*100/(timeLeft.gameEndTimestamp - timeLeft.gamePredEndTimestamp))
+
+	}, [counterTime])
+
+	useEffect(() => {
+		//if(counter >= 5 && data < 3){
+			if(userInfos.status === "connected" && userReward.rewards === "")	{
+				getReward();
+			}
+			//setTimeout(() => {setCounter(counter+1);}, 1000)
+			//setData(data+1)
+		//}
+	}, [selectedAccount, counterTime])
+
 	return (
 			<Main>
 				<Navbar1 userInfos={userInfos} page="Homepage"/>
-				<div style={{"justify-content": "center",
-	"text-align": "center"}}>
-				<Text
-    color = "success"
-    weight="bold">{idCurrentGame.timeLeft}</Text>
-				<Progress value={idCurrentGame.timestampLeft} shadow color="gradient" status="primary"/>
+				{userInfos.status == "connected" ?
+				<div>
+				<div style={{"justify-content": "center", "text-align": "center"}}>
+				<Text color = "success" weight="bold">{timeLeftVar}</Text>
+				<Progress value={timeLeftTimestamp} shadow color="gradient" status="primary"/>
 				</div>
 				<div style={{"display" : "flex", "flex-direction": "row"}}>
 				<StatsContainer style={{"marginTop": "0%", "width": "50%"}}>
@@ -213,7 +279,7 @@ const Homepage = () => {
 								<Key>Locked price</Key>
 								<Key>Current price</Key>
 							</Stats>
-							<ActualGame userInfos={userInfos} idCurrentGame={idCurrentGame.current}/>
+							<ActualGame userInfos={userInfos} idCurrentGame={idCurrentGame}/>
 				</StatsContainer>
 				<StatsContainer style={{"marginTop": "0%", "width": "50%"}}>
 							<Stats>
@@ -222,7 +288,7 @@ const Homepage = () => {
 								<Key>Up payout</Key>
 								<Key>Down payout</Key>
 							</Stats>
-							<NextGame userInfos={userInfos} idCurrentGame={idCurrentGame.current+1}/>
+							<NextGame userInfos={userInfos} idCurrentGame={idCurrentGame.current+1} events={idCurrentGame.events}/>
 				</StatsContainer>
 				</div>
 				<div style={{"display" : "flex", "flex-direction": "row"}}>
@@ -247,7 +313,7 @@ const Homepage = () => {
 				</div>
 				
 				<ButtonsContainer>
-				{userInfos.network == "137" ? (<RewardText>{userInfos.rewards > 0 ? userInfos.rewards : 0} MATIC</RewardText>):("")}
+				{userInfos.network == "137" ? (<RewardText>{userReward.rewards === "" ? <Loading size="xs"/> : userReward.rewards} MATIC</RewardText>):("")}
 				<RewardsContainer>
 					<Reward>
 						<RewardButton onClick={() => window.open("https://discord.gg/8YNB9yMNnm")}>Join our Discord Server</RewardButton>
@@ -255,7 +321,7 @@ const Homepage = () => {
 					{userInfos.network == "137" ? (
 						<Reward>
 							<RewardButton onClick={() => reward()}>
-								<span>Collect Rewards</span>
+								<span>Collect Winnings</span>
 								<div class="liquid"></div>
 							</RewardButton>
 						</Reward>
@@ -269,6 +335,16 @@ const Homepage = () => {
 					</Reward>
 				</RewardsContainer>
 			</ButtonsContainer>
+			</div>
+			:
+			<ContainerLoading style={{"flex-direction": "column"}}>
+				<Loading size="xl" />
+				<RewardTextNo>Make sure Metamask is installed and connected to Polygon's network.</RewardTextNo>
+				<RewardButton style={{width: "20%"}} onClick={() => window.open("https://metamask.io")}>Install Metamask</RewardButton>
+				<RewardTextNo>Click below to switch networks.</RewardTextNo>
+				<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
+			</ContainerLoading>
+			}
 			</Main>
 	)
 }
@@ -289,6 +365,7 @@ const Main = styled.main`
     background-clip: initial, initial;
     background-color: rgb(31, 33, 40);
     background-blend-mode: overlay, normal;
+    overflow: hidden;
 `
 
 const Container = styled.div`
@@ -306,6 +383,16 @@ const StatsContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	border-radius: 0.5rem;
+`
+
+const ContainerLoading = styled.div`
+	height: 100%;
+  	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 5%;
 `
 
 const Stats = styled.div`

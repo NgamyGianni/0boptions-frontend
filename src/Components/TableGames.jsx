@@ -32,9 +32,6 @@ const TableGames = ({userInfos, idCurrentGame}) => {
 	    			currentPrice = receipt/10 ** 8;
 				});
 
-			var min = String((game.endTimestamp - Math.floor(Date.now()/1000)) % 60);
-			if(min < 10)	min  = "0"+ min
-
 			var priceStart = 0;
 			if(currentGameId !== 0){
 				await contract.methods.Games(parseInt(currentGameId)-1).call()
@@ -42,24 +39,6 @@ const TableGames = ({userInfos, idCurrentGame}) => {
 	    			priceStart = receipt.priceEnd / 10 ** 8;
 				});
 			}
-
-			var state = (currentPrice - priceStart).toFixed(3); 
-
-			if (state > 0){
-				state = "UP"
-			}else{
-				if(state < 0){
-					state = "DOWN"
-				}
-				else{
-					state = "---"
-				}
-			}
-
-			var user = await contract.methods.users(currentGameId, userInfos.account).call();
-			var poolChoice = user.poolChoice;
-			if(poolChoice == 1)	poolChoice = "UP"
-			else	poolChoice = "DOWN"
 			
 			setGameInfos({
 				Pool1Amount : await web3.utils.fromWei(game.upAmount, 'ether'),
@@ -68,13 +47,7 @@ const TableGames = ({userInfos, idCurrentGame}) => {
 				Pool0Payout: parseFloat(game.downAmount) > 0 ? ((parseFloat(game.upAmount)+parseFloat(game.downAmount))/parseFloat(game.downAmount)).toFixed(2) : "1.00",
 				priceStart : priceStart.toFixed(3),
 				PriceEnd: currentGameId == realgameId ? currentPrice.toFixed(3) : (game.priceEnd / 10 ** 8).toFixed(3),
-				CurrentPrice: currentPrice.toFixed(3),
 				CurrentGameId: currentGameId,
-				playerState: parseInt(user.amount) > 0 ? poolChoice + " : " + await web3.utils.fromWei(user.amount, 'ether') + " MATIC": "OUT",
-				State: state,
-				previousTime: game.endTimestamp,
-				min: min,
-				TimeLeft: Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min : "Calculating"
 			})
 	}
 	const [counter, setCounter] = useState(0)

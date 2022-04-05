@@ -17,8 +17,8 @@ const Navbar = ({userInfos, page}) => {
  				<Tab className={page=="Profile" ? "active":""}>
  					<LinkToPage to="/profile" >Profile</LinkToPage>
  				</Tab>
- 				<Tab className={page=="Quest" ? "active":""}>
- 					<LinkToPage to="/quest">Quest</LinkToPage>
+ 				<Tab className={page=="Claim" ? "active":""}>
+ 					<LinkToPage to="/Claim">Claim</LinkToPage>
  				</Tab>
  				<Tab className={page=="Stacking" ? "active":""}>
  					<LinkToPage to="/stacking" >Stacking</LinkToPage>

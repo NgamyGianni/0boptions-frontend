@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Navbar from "../Components/Navbar"
 import Web3 from 'web3'
-import { Button, Text } from '@nextui-org/react';
+import { Button, Text, Loading } from '@nextui-org/react';
 
 const Profile = () => {
 	const web3 = new Web3(window.ethereum);
@@ -14,15 +14,17 @@ const Profile = () => {
 					balance: "0",
 					network: "",
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
+					reward:""
 				});
 
 	const [profileInfos, setProfileInfos] = useState({
-		rounds: "Loading",
-		winRate: "Loading",
-		netWinnings: "Loading",
+		rounds: "...",
+		winRate: "...",
+		netWinnings: "...",
 	})
 
 	const [selectedAccount, setSelectedAccount] = useState("");
+	const [userReward, setUserReward] = useState({rewards: ""});
 
 	async function logAccount(){
 		let provider = window.ethereum;
@@ -43,29 +45,10 @@ const Profile = () => {
 			});
 			
 			if(selectedAccount !== ""){
-
-				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
-					var reward = 0;
-					var game;
-					var user;
-
-					for(var i=0; i<rewardList.length; i++){
-						if(rewardList[i] > 0){
-							await contract.methods.Games(rewardList[i]).call()
-								.then(function(receipt){
-									game = receipt;
-								});	
-
-							user = await contract.methods.users(rewardList[i], userInfos.account).call()
-							reward += await (user.amount*game.rewardAmount)/game.rewardPoolAmount
-						}
-					}
-
 				setUserInfos({
 					account: selectedAccount,
 					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
 					network: await web3.eth.net.getId(),
-					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')),
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
 					status: "connected",
 				});
@@ -74,7 +57,7 @@ const Profile = () => {
 	}
 
 	async function getData(){
-		if(selectedAccount !== "" && userInfos.network == "137"){
+		if(selectedAccount !== "" && await web3.eth.net.getId() == "137"){
 			var reward = 0;
 			var cpt = (await contract.methods.getUserGames(selectedAccount).call()).length;
 			var netWinnings;
@@ -89,20 +72,50 @@ const Profile = () => {
 			}
 			setProfileInfos({
 				rounds: cpt,
-				winRate: winRate.toFixed(1) + " %",
-				netWinnings: String(parseFloat(await web3.utils.fromWei(String(netWinnings), 'ether')).toFixed(3)) + " MATIC",
+				winRate: winRate.toFixed(1),
+				netWinnings: String(parseFloat(await web3.utils.fromWei(String(netWinnings), 'ether')).toFixed(3)),
 			});
 		}else{
 			setProfileInfos({
-				rounds: "Loading",
-				winRate: "Loading",
-				netWinnings: "Loading",
+				rounds: "error",
+				winRate: "error",
+				netWinnings: "error",
 			});
 		}
 	}
 
+	async function getReward(){
+		if(selectedAccount !== "" && await web3.eth.net.getId() == "137"){
+			var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
+			var reward = 0;
+			var game;
+			var user;
+
+			for(var i=0; i<rewardList.length; i++){
+				if(rewardList[i] > 0){
+					await contract.methods.Games(rewardList[i]).call()
+						.then(function(receipt){
+							game = receipt;
+						});	
+
+					user = await contract.methods.users(rewardList[i], userInfos.account).call()
+					reward += await (user.amount*game.rewardAmount)/game.rewardPoolAmount
+				}
+			}
+
+			setUserReward({
+				rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether'))
+			})
+		}
+		else{
+			setUserReward({
+				rewards: ""
+			})
+		}
+	}
+
 	async function reward(){
-		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount, type: "0x0"});
+		if(await web3.eth.net.getId() == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount, type: "0x0"});
 	}
 
 	async function switchEthereumChain() {
@@ -139,18 +152,29 @@ const Profile = () => {
 	const [counter, setCounter] = useState(0)
 	const [data, setData] = useState(0)
 	useEffect(() => {
-		if(counter < 7){
+		if(userInfos.status !== "connected"){	
 			logAccount();
 		}
-		if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
-	}, [counter])
+		//if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
+	}, [selectedAccount, counter])
 
 	useEffect(() => {
-		if(counter >= 5 && data < 3){
-			getData();
-			setData(data+1)
-		}
-	}, [counter])
+		//if(counter >= 5 && data < 3){
+			if(userInfos.status === "connected" && (profileInfos.rounds === "..." || profileInfos.rounds === "error"))	getData();
+			setTimeout(() => {setCounter(counter+1);}, 1000)
+			//setData(data+1)
+		//}
+	}, [counter, selectedAccount])
+
+	useEffect(() => {
+		//if(counter >= 5 && data < 3){
+			if(userInfos.status === "connected" && userReward.rewards === "")	{
+				getReward();
+			}
+			//setTimeout(() => {setCounter(counter+1);}, 1000)
+			//setData(data+1)
+		//}
+	}, [selectedAccount, counter])
 
 	useEffect(() => {
 		if (window.ethereum) {
@@ -171,22 +195,23 @@ const Profile = () => {
 	return (
 		<Main>
 			<Navbar userInfos={userInfos} page="Profile"/>
-			{userInfos.network == "137" ? 
+			{userInfos.status == "connected" ? 
+			userInfos.network == "137" ? 
 				<ContainerGen>
 					<Container>
 						<StatsContainer>
 							<Stats>
 								<Key>Win Rate</Key>
-								<Value>{profileInfos.winRate}</Value>
+								<Value>{profileInfos.winRate == "..." ? <Loading size="xs"/> : profileInfos.winRate} %</Value>
 							</Stats>
 							<Stats>
 								<Key>Rounds</Key>
-								<Value>{profileInfos.rounds}</Value>
+								<Value>{profileInfos.rounds == "..." ? <Loading size="xs"/> : profileInfos.rounds} {profileInfos.rounds <= 1 ? "round" : "rounds"}</Value>
 							</Stats>
 						</StatsContainer>
 						<Stats style={{"margin-top":"20%"}}>
 								<Key>Net Winnings</Key>
-								<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings}</Value>
+								<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings == "..." ? <Loading size="xs"/> : profileInfos.netWinnings} MATIC</Value>
 						</Stats>
 					</Container>
 				</ContainerGen>
@@ -196,11 +221,19 @@ const Profile = () => {
 					<RewardText>Click below to switch networks.</RewardText>
 					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
 			</ContainerGen>
+			:
+			<ContainerLoading style={{"flex-direction": "column"}}>
+				<Loading size="xl" />
+				<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
+				<RewardButton style={{width: "20%"}} onClick={() => window.open("https://metamask.io")}>Install Metamask</RewardButton>
+				<RewardText>Click below to switch networks.</RewardText>
+				<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
+			</ContainerLoading>
 			}
 			{userInfos.network == "137" ?
 			<Reward>
-				<RewardText>{userInfos.rewards > 0 ? userInfos.rewards: 0} MATIC</RewardText>
-				<RewardButton onClick={() => reward()}>Collect rewards</RewardButton>
+				<RewardText>{userReward.rewards == "" ? <Loading size="xs"/> : userReward.rewards} MATIC</RewardText>
+				<RewardButton onClick={() => reward()}>Collect Winnings</RewardButton>
 			</Reward>
 			:""
 			}
@@ -224,9 +257,20 @@ const Main = styled.main`
     background-clip: initial, initial;
     background-color: rgb(31, 33, 40);
     background-blend-mode: overlay, normal;
+    overflow: hidden;
 `
 
 const ContainerGen = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 5%;
+`
+
+const ContainerLoading = styled.div`
+	height: 100%;
+  	width: 100%;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;

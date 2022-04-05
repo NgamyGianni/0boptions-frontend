@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useContext, useEffect } from "react"
 import styled from "styled-components"
 
 const Portfolio = ({userInfos}) => {
 
 	let tmp = userInfos.account;
 	let res = tmp.substring(0, 5) + "..." + tmp.substring((tmp.length)-4);
+
 	return (
 		<Container>
 			<Currency style={userInfos.network == "137" ? {} : {background:"rgb(255, 67, 67)", color: "white", width: "100%", "text-align": "center"}}>

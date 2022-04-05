@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Navbar from "../Components/Navbar"
 import Web3 from 'web3'
-import { Button, Text } from '@nextui-org/react';
+import { Button, Text, Loading } from '@nextui-org/react';
 
-const Quest = () => {
+const Claim = () => {
 	const web3 = new Web3(window.ethereum);
 	let abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_lastGame","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_changeCurrentGame","type":"event"},{"anonymous":false,"inputs":[],"name":"_initCycle","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinDown","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_joinUp","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_from","type":"address"},{"indexed":true,"internalType":"uint256[]","name":"_game","type":"uint256[]"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_reward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_address","type":"address"},{"indexed":false,"internalType":"uint256","name":"_value","type":"uint256"}],"name":"_rewardAdmin","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"update","type":"uint256"}],"name":"_setIntervalTime","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"_game","type":"uint256"}],"name":"_updateTreasury","type":"event"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"Games","outputs":[{"internalType":"uint256","name":"upAmount","type":"uint256"},{"internalType":"uint256","name":"downAmount","type":"uint256"},{"internalType":"uint256","name":"totalAmount","type":"uint256"},{"internalType":"uint256","name":"rewardAmount","type":"uint256"},{"internalType":"uint256","name":"rewardPoolAmount","type":"uint256"},{"internalType":"bool","name":"rewardCalculated","type":"bool"},{"internalType":"uint256","name":"endTimestamp","type":"uint256"},{"internalType":"int256","name":"priceEnd","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NextCurrentGame","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentGameId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feesRate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentPrice","outputs":[{"internalType":"int256","name":"_price","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserAvailableWins","outputs":[{"internalType":"uint256[]","name":"_winGames","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserGames","outputs":[{"internalType":"uint256[]","name":"games","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserTotalAmount","outputs":[{"internalType":"uint256","name":"amountGames","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserWinAmount","outputs":[{"internalType":"uint256","name":"_winAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserWins","outputs":[{"internalType":"uint256[]","name":"_winGames","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"initCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"intervalSeconds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"idGame","type":"uint256"},{"internalType":"address","name":"_address","type":"address"}],"name":"isWinner","outputs":[{"internalType":"bool","name":"_isWinner","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"joinDown","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"joinUp","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"idGames","type":"uint256[]"}],"name":"reward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address payable","name":"_address","type":"address"}],"name":"rewardAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_intervalSeconds","type":"uint256"}],"name":"setIntervalSeconds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userGames","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"poolChoice","type":"uint8"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"}];
 	let contract = new web3.eth.Contract(abi, "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB");
+
+	let abiClaim = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"admin","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"AddReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"GetRewardGames","type":"event"},{"inputs":[],"name":"ObContract","outputs":[{"internalType":"contract I0bOptions","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ObToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"addReward","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"currentRewardAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getRewardGames","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"index","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"isWinnerGames","outputs":[{"internalType":"bool","name":"","type":"bool"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"nbWinnersByIndex","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"rewardAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"rewardAmountByGame","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"winners","outputs":[{"internalType":"uint256","name":"lastGameLength","type":"uint256"}],"stateMutability":"view","type":"function"}]
+	let contractClaim = new web3.eth.Contract(abiClaim, "0xff5e58A9e6F2658F838fD68Dd353Da6645B004B7")
+
+	let abiToken = [{"inputs":[{"internalType":"uint256","name":"total","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"tokenOwner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"delegate","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"delegate","type":"address"},{"internalType":"uint256","name":"numTokens","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"burn","outputs":[{"internalType":"bool","name":"success","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"receiver","type":"address"},{"internalType":"uint256","name":"numTokens","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"buyer","type":"address"},{"internalType":"uint256","name":"numTokens","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}]
+	let contractToken = new web3.eth.Contract(abiToken, "0x77127bEC1015d13B03CB6364E49c050C0FE1f22a")
+
 	let connected = false;
 
 	const [userInfos, setUserInfos] = useState({account: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
@@ -17,9 +24,8 @@ const Quest = () => {
 				});
 
 	const [profileInfos, setProfileInfos] = useState({
-		rounds: "Loading",
-		winRate: "Loading",
-		netWinnings: "Loading",
+		pendingRounds: "...",
+		balance : "..."
 	})
 
 	const [selectedAccount, setSelectedAccount] = useState("");
@@ -44,28 +50,10 @@ const Quest = () => {
 			
 			if(selectedAccount !== ""){
 
-				var rewardList = await contract.methods.getUserAvailableWins(selectedAccount).call();
-					var reward = 0;
-					var game;
-					var user;
-
-					for(var i=0; i<rewardList.length; i++){
-						if(rewardList[i] > 0){
-							await contract.methods.Games(rewardList[i]).call()
-								.then(function(receipt){
-									game = receipt;
-								});	
-
-							user = await contract.methods.users(rewardList[i], userInfos.account).call()
-							reward += await (user.amount*game.rewardAmount)/game.rewardPoolAmount
-						}
-					}
-
 				setUserInfos({
 					account: selectedAccount,
 					balance: await web3.utils.fromWei(await web3.eth.getBalance(selectedAccount), 'ether'),
 					network: await web3.eth.net.getId(),
-					rewards: parseFloat(await web3.utils.fromWei(String(reward), 'ether')),
 					contract: "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB",
 					status: "connected",
 				});
@@ -75,34 +63,24 @@ const Quest = () => {
 
 	async function getData(){
 		if(selectedAccount !== "" && userInfos.network == "137"){
-			var reward = 0;
-			var cpt = (await contract.methods.getUserGames(selectedAccount).call()).length;
-			var netWinnings;
-			var winRate;
 
-			if((await contract.methods.getUserWins(selectedAccount).call())[0] != 0){
-				winRate = ((await contract.methods.getUserWins(selectedAccount).call()).length/cpt)*100;
-				netWinnings = await contract.methods.getUserWinAmount(selectedAccount).call() - await contract.methods.getUserTotalAmount(selectedAccount).call();
-			}else{
-				winRate = 0
-				netWinnings = 0
-			}
+			let pendingRounds = await contractClaim.methods.isWinnerGames(selectedAccount).call();
+			let balance = await contractToken.methods.balanceOf(selectedAccount).call();
+
 			setProfileInfos({
-				rounds: cpt,
-				winRate: winRate.toFixed(1) + " %",
-				netWinnings: String(parseFloat(await web3.utils.fromWei(String(netWinnings), 'ether')).toFixed(3)) + " MATIC",
+				pendingRounds: pendingRounds[2],
+				balance : balance
 			});
 		}else{
 			setProfileInfos({
-				rounds: "Loading",
-				winRate: "Loading",
-				netWinnings: "Loading",
+				pendingRounds: 0,
+				balance : 0
 			});
 		}
 	}
 
 	async function reward(){
-		if(userInfos.network == "137")	await contract.methods.reward(await contract.methods.getUserAvailableWins(selectedAccount).call()).send({from: selectedAccount, type: "0x0"});
+		if(userInfos.network == "137")	await contractClaim.methods.getRewardGames().send({from: selectedAccount, type: "0x0"});
 	}
 
 	async function switchEthereumChain() {
@@ -136,7 +114,7 @@ const Quest = () => {
 	      }
 	    }
 	  }
-	const [counter, setCounter] = useState(0)
+	/*const [counter, setCounter] = useState(0)
 	const [data, setData] = useState(0)
 	useEffect(() => {
 		if(counter < 7){
@@ -150,7 +128,22 @@ const Quest = () => {
 			getData();
 			setData(data+1)
 		}
-	}, [counter])
+	}, [counter])*/
+
+	const [counter, setCounter] = useState(0)
+	const [data, setData] = useState(0)
+	useEffect(() => {
+		if(userInfos.status !== "connected")	logAccount();
+		//if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
+	}, [selectedAccount, counter])
+
+	useEffect(() => {
+		//if(counter >= 5 && data < 3){
+			if(userInfos.status === "connected" && (profileInfos.balance === "..." || profileInfos.balance === "error"))	getData();
+			setTimeout(() => {setCounter(counter+1);}, 1000)
+			//setData(data+1)
+		//}
+	}, [counter, selectedAccount])
 
 	useEffect(() => {
 		if (window.ethereum) {
@@ -170,20 +163,24 @@ const Quest = () => {
 	}, [selectedAccount, profileInfos])
 	return (
 		<Main>
-			<Navbar userInfos={userInfos} page="Quest"/>
-			{userInfos.network == "137" ? 
+			<Navbar userInfos={userInfos} page="Claim"/>
+			{userInfos.status == "connected" ?	
+			userInfos.network == "137" ? 
 				<ContainerGen>
 					<Container>
 						<StatsContainer>
-							<Stats>
-								<Key>Quest 1 : Win amount > 10 MATIC</Key>
-								<Value>{profileInfos.winRate}</Value>
-								<Button flat color="success" >Collect</Button>
+						<Stats>
+								<Key>Balance</Key>
+								<Value>{profileInfos.balance == "..." ? <Loading size="xs"/> : profileInfos.balance / (10**18)} 0b</Value>
 							</Stats>
 							<Stats>
-								<Key>Quest 2 : Net winnings > 10 MATIC</Key>
-								<Value>{profileInfos.rounds} %</Value>
-								<Button flat disabled color="error">Collect</Button>
+								<Key>Join a game with 1 MATIC or more to win 10 0bToken</Key>
+								<Value>{profileInfos.pendingRounds == "..." ? <Loading size="xs"/> : profileInfos.pendingRounds} {profileInfos.pendingRounds <= 1 ? "round" : "rounds"}</Value>
+								{profileInfos.pendingRounds == "..." ? "" : <Button flat color={profileInfos.pendingRounds > 0 ? "success" : "error"} onClick={() => reward()}>Collect</Button>}
+							</Stats>
+							<Stats>
+								<Key>Pending</Key>
+								<Value>{profileInfos.pendingRounds == "..." ? <Loading size="xs"/> : 10 * profileInfos.pendingRounds} 0b</Value>
 							</Stats>
 						</StatsContainer>
 					</Container>
@@ -193,6 +190,14 @@ const Quest = () => {
 					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
 					<RewardText>Click below to switch networks.</RewardText>
 					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
+			</ContainerGen>
+			:
+			<ContainerGen style={{"flex-direction": "column"}}>
+				<Loading size="xl" />
+				<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
+				<RewardButton style={{width: "20%"}} onClick={() => window.open("https://metamask.io")}>Install Metamask</RewardButton>
+				<RewardText>Click below to switch networks.</RewardText>
+				<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
 			</ContainerGen>
 			}
 
@@ -215,6 +220,7 @@ const Main = styled.main`
     background-clip: initial, initial;
     background-color: rgb(31, 33, 40);
     background-blend-mode: overlay, normal;
+    overflow: hidden;
 `
 
 const ContainerGen = styled.div`
@@ -334,4 +340,4 @@ const RewardButton = styled.button`
 	}
 `
 
-export default Quest
+export default Claim
