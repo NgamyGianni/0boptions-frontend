@@ -2,20 +2,21 @@ import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 import Web3 from "web3"
 import { abi } from "../Config/abi"
+import { ADDRESS } from "../Config/contract"
 import { UserContext } from "../Provider/UserProvider"
 
 const PreviousGame = ({ idCurrentGame }) => {
 	const web3 = new Web3(window.ethereum)
-	let contract = new web3.eth.Contract(abi, "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB")
-	const { user: userInfos, userLoading, setUser } = useContext(UserContext)
+	let contract = new web3.eth.Contract(abi, ADDRESS)
+	const { user: userInfos } = useContext(UserContext)
 
 	const [gameInfos, setGameInfos] = useState({ CurrentGameId: 0 })
 
-	async function getGameInfos(idGame) {
-		var game
-		var statusGame
-		var currentPrice
-		var currentGameId = idGame
+	const getGameInfos = async (idGame) => {
+		let game
+		let statusGame
+		let currentPrice
+		let currentGameId = idGame
 
 		await contract.methods
 			.Games(currentGameId)
@@ -31,10 +32,12 @@ const PreviousGame = ({ idCurrentGame }) => {
 				currentPrice = receipt / 10 ** 8
 			})
 
-		var min = String((game.endTimestamp - Math.floor(Date.now() / 1000)) % 60)
-		if (min < 10) min = "0" + min
+		let min = String((game.endTimestamp - Math.floor(Date.now() / 1000)) % 60)
+		if (min < 10) {
+			min = "0" + min
+		}
 
-		var priceStart = 0
+		let priceStart = 0
 		if (currentGameId !== 0) {
 			await contract.methods
 				.Games(parseInt(currentGameId) - 1)
@@ -44,15 +47,15 @@ const PreviousGame = ({ idCurrentGame }) => {
 				})
 		}
 
-		var userGame = await contract.methods.users(currentGameId, userInfos.account).call()
-		var poolChoice = userGame.poolChoice
-		if (poolChoice == 1) poolChoice = "UP"
+		let userGame = await contract.methods.users(currentGameId, userInfos.account).call()
+		let poolChoice = userGame.poolChoice
+		if (poolChoice === 1) poolChoice = "UP"
 		else poolChoice = "DOWN"
 
 		statusGame = "Closed"
 		setGameInfos({
-			Pool1Amount: await web3.utils.fromWei(game.upAmount, "ether"),
-			Pool0Amount: await web3.utils.fromWei(game.downAmount, "ether"),
+			Pool1Amount: web3.utils.fromWei(game.upAmount, "ether"),
+			Pool0Amount: web3.utils.fromWei(game.downAmount, "ether"),
 			Pool1Payout:
 				parseFloat(game.upAmount) > 0 ? ((parseFloat(game.upAmount) + parseFloat(game.downAmount)) / parseFloat(game.upAmount)).toFixed(2) : "1.00",
 			Pool0Payout:
@@ -64,18 +67,14 @@ const PreviousGame = ({ idCurrentGame }) => {
 			PriceEnd: (game.priceEnd / 10 ** 8).toFixed(3),
 			CurrentPrice: currentPrice.toFixed(3),
 			CurrentGameId: currentGameId,
-			playerState: parseInt(userGame.amount) > 0 ? poolChoice + " : " + (await web3.utils.fromWei(userGame.amount, "ether")) + " MATIC" : "OUT",
+			playerState: parseInt(userGame.amount) > 0 ? poolChoice + " : " + web3.utils.fromWei(userGame.amount, "ether") + " MATIC" : "OUT",
 			TimeLeft: String(Math.floor((game.endTimestamp - Math.floor(Date.now() / 1000)) / 60)) + " : " + min,
 			winner: game.priceEnd / 10 ** 8 > priceStart ? "UP" : "DOWN"
 		})
 	}
-	const [counter, setCounter] = useState(0)
 	useEffect(() => {
 		getGameInfos(idCurrentGame)
-		setTimeout(() => {
-			setCounter(counter + 1)
-		}, 15000)
-	}, [counter])
+	}, [])
 	return (
 		<Container style={gameInfos.winner === "UP" ? { border: "3px solid rgb(39, 255, 96)" } : { border: "3px solid rgb(255, 67, 67)" }}>
 			<StatusContainer>

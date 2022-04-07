@@ -3,25 +3,27 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 import Portfolio from "../Components/Portfolio"
 import { UserContext } from "../Provider/UserProvider"
+import Logo from "../logo.jpg"
+import PNGA from "../pngaaa.com-4112190.png"
 
 const Navbar = ({ page }) => {
-	const { user: userInfos, userLoading, setUser } = useContext(UserContext)
+	const { user: userInfos } = useContext(UserContext)
 	return (
 		<Header>
 			<Title>
-				<img src={require("../logo.jpg").default} style={{ width: "20%" }} alt="no image" />
+				<img src={Logo} style={{ width: "20%" }} alt="logo" />
 				<TitleText>Automated prediction market maker</TitleText>
 			</Title>
 			<Tabs>
-				<Tab className={page == "Homepage" ? "active" : ""}>
+				<Tab className={page === "Homepage" ? "active" : ""}>
 					<LinkToPage to="/">Prediction Market</LinkToPage>
 				</Tab>
-				<Tab className={page == "Profile" ? "active" : ""}>
+				<Tab className={page === "Profile" ? "active" : ""}>
 					<LinkToPage to="/profile">Profile</LinkToPage>
 				</Tab>
 			</Tabs>
 			<Title style={{ "margin-left": "3.5%" }}>
-				<img src={require("../pngaaa.com-4112190.png").default} style={{ width: "15%" }} alt="no image" />
+				<img src={PNGA} style={{ width: "15%" }} alt="PNGA" />
 				<TitleText>Ethereum</TitleText>
 			</Title>
 			<Portfolio userInfos={userInfos} />

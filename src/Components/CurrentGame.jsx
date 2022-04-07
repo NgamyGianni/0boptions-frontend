@@ -3,17 +3,18 @@ import { abi } from "../Config/abi"
 import { UserContext } from "../Provider/UserProvider"
 import styled from "styled-components"
 import Web3 from "web3"
+import { ADDRESS } from "../Config/contract"
 
 const CurrentGame = ({ idCurrentGame }) => {
 	const web3 = new Web3(window.ethereum)
 	const { user: userInfos, userLoading, setUser } = useContext(UserContext)
-	let contract = new web3.eth.Contract(abi, "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB")
+	let contract = new web3.eth.Contract(abi, ADDRESS)
 
 	const [gameInfos, setGameInfos] = useState("")
 
 	async function getGameInfos(idGame) {
 		var game
-		var statusGame
+		// var statusGame
 		var currentPrice
 		var currentGameId = idGame
 
@@ -85,10 +86,7 @@ const CurrentGame = ({ idCurrentGame }) => {
 	const [counter, setCounter] = useState(0)
 	useEffect(() => {
 		getGameInfos(idCurrentGame)
-		setTimeout(() => {
-			setCounter(counter + 1)
-		}, 1000)
-	}, [counter])
+	}, [])
 	return (
 		<Container style={gameInfos.State === "UP" ? { border: "3px solid rgb(39, 255, 96)" } : { border: "3px solid rgb(255, 67, 67)" }}>
 			<StatusContainer>
