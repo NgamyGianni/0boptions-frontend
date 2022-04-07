@@ -1,28 +1,30 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import Portfolio from "../Components/Portfolio"
+import { UserContext } from "../Provider/UserProvider"
 
-const Navbar = ({userInfos, page}) => {
+const Navbar = ({ page }) => {
+	const { user: userInfos, userLoading, setUser } = useContext(UserContext)
 	return (
 		<Header>
 			<Title>
-				<img src={require("../logo.jpg").default} style={{width:"20%"}} alt="no image"/>
+				<img src={require("../logo.jpg").default} style={{ width: "20%" }} alt="no image" />
 				<TitleText>Automated prediction market maker</TitleText>
 			</Title>
 			<Tabs>
- 				<Tab className={page=="Homepage" ? "active":""}>
- 					<LinkToPage to="/">Prediction Market</LinkToPage>
- 				</Tab>
- 				<Tab className={page=="Profile" ? "active":""}>
- 					<LinkToPage to="/profile" >Profile</LinkToPage>
- 				</Tab>
- 			</Tabs>
-			<Title style={{"margin-left": "3.5%"}}>
-				<img src={require("../pngaaa.com-4112190.png").default} style={{width:"15%"}} alt="no image"/>
+				<Tab className={page == "Homepage" ? "active" : ""}>
+					<LinkToPage to="/">Prediction Market</LinkToPage>
+				</Tab>
+				<Tab className={page == "Profile" ? "active" : ""}>
+					<LinkToPage to="/profile">Profile</LinkToPage>
+				</Tab>
+			</Tabs>
+			<Title style={{ "margin-left": "3.5%" }}>
+				<img src={require("../pngaaa.com-4112190.png").default} style={{ width: "15%" }} alt="no image" />
 				<TitleText>Ethereum</TitleText>
 			</Title>
-			<Portfolio userInfos={userInfos}/>
+			<Portfolio userInfos={userInfos} />
 		</Header>
 	)
 }
@@ -47,7 +49,7 @@ const TitleText = styled.div`
 `
 
 const Header = styled.header`
-	font-family: Inter,sans-serif;
+	font-family: Inter, sans-serif;
 	height: 60px;
 	padding: 1rem;
 	display: flex;
