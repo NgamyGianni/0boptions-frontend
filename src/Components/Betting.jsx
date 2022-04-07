@@ -5,76 +5,91 @@ import { abi } from "../Config/abi"
 import { UserContext } from "../Provider/UserProvider"
 import Popup from "reactjs-popup"
 import "reactjs-popup/dist/index.css"
+import { ADDRESS } from "../Config/contract"
 
 const Betting = ({ idCurrentGame }) => {
-	let inputAmount = React.createRef()
+	const inputAmount = React.createRef()
 	const web3 = new Web3(window.ethereum)
-	const { user: userInfos, userLoading, setUser } = useContext(UserContext)
+	const { user: userInfos } = useContext(UserContext)
 
-	let contract = new web3.eth.Contract(abi, "0xCa2d0B66cb00C9FFB7C35602c65EbefD06e291cB")
+	const contract = new web3.eth.Contract(abi, ADDRESS)
 
-	const [gameInfos, setGameInfos] = useState("")
+	const [gameInfos, setGameInfos] = useState({
+		Pool1Amount: 0,
+		Pool0Amount: 0,
+		Pool1Payout: 0,
+		Pool0Payout: 0,
+		priceStart: 0,
+		CurrentPrice: 0,
+		CurrentGameId: "",
+		playerState: "",
+		previousTime: 0,
+		min: 0,
+		TimeLeft: 0
+	})
 
-	async function betUp() {
+	const betUp = async () => {
 		await window.ethereum.enable()
 
 		if (Boolean(inputAmount.current.value.match("^[0-9]*[.,]?[0-9]*$"))) {
-			let betAmount = inputAmount.current.value.replace(",", ".")
+			const betAmount = inputAmount.current.value.replace(",", ".")
 			await contract.methods.joinUp().send({ from: userInfos.account, value: web3.utils.toWei(betAmount, "ether"), type: "0x0" })
 		}
 	}
 
-	async function betDown() {
+	const betDown = async () => {
 		await window.ethereum.enable()
 
 		if (Boolean(inputAmount.current.value.match("^[0-9]*[.,]?[0-9]*$"))) {
-			let betAmount = inputAmount.current.value.replace(",", ".")
+			const betAmount = inputAmount.current.value.replace(",", ".")
 			await contract.methods.joinDown().send({ from: userInfos.account, value: web3.utils.toWei(betAmount, "ether"), type: "0x0" })
 		}
 	}
 
-	async function getGameInfos(idGame) {
+	const getGameInfos = async (idGame) => {
 		//await window.ethereum.enable();
-		var game
-		var statusGame
-		var currentPrice
-		var currentGameId = idGame
+		let game
+		// let statusGame
+		let currentPrice
+		let currentGameId = idGame
 
 		await contract.methods
 			.Games(currentGameId)
 			.call()
-			.then(function (receipt) {
+			.then((receipt) => {
 				game = receipt
 			})
 
 		await contract.methods
 			.getCurrentPrice()
 			.call()
-			.then(function (receipt) {
+			.then((receipt) => {
 				currentPrice = receipt / 10 ** 8
 			})
 
-		var priceStart = 0
-		var previousTime = 0
+		let priceStart = 0
+		let previousTime = 0
 		if (currentGameId !== 0) {
 			await contract.methods
 				.Games(parseInt(currentGameId) - 1)
 				.call()
-				.then(function (receipt) {
+				.then((receipt) => {
 					priceStart = receipt.priceEnd / 10 ** 8
 					previousTime = receipt.endTimestamp
 				})
 		}
 
-		var min = String((previousTime - Math.floor(Date.now() / 1000)) % 60)
-		if (min < 10) min = "0" + min
+		let min = String((previousTime - Math.floor(Date.now() / 1000)) % 60)
+		if (min < 10) {
+			min = "0" + min
+		}
 
-		var userAmount = await contract.methods.users(currentGameId, userInfos.account).call()
+		let userAmount = await contract.methods.users(currentGameId, userInfos.account).call()
 
-		var playerState = parseInt(userAmount.amount)
+		let playerState = parseInt(userAmount.amount)
 		if (playerState > 0) {
-			if (userAmount.poolChoice == 0) playerState = "DOWN : " + (await web3.utils.fromWei(userAmount.amount, "ether"))
-			else playerState = "UP : " + (await web3.utils.fromWei(userAmount.amount, "ether")) + " MATIC"
+			if (userAmount.poolChoice === 0) playerState = "DOWN : " + web3.utils.fromWei(userAmount.amount, "ether")
+			else playerState = "UP : " + web3.utils.fromWei(userAmount.amount, "ether") + " MATIC"
 		} else {
 			if (Math.floor((previousTime - Math.floor(Date.now() / 1000)) / 60) < 0) {
 				playerState = "OUT"
@@ -84,8 +99,8 @@ const Betting = ({ idCurrentGame }) => {
 		}
 
 		setGameInfos({
-			Pool1Amount: await web3.utils.fromWei(game.upAmount, "ether"),
-			Pool0Amount: await web3.utils.fromWei(game.downAmount, "ether"),
+			Pool1Amount: web3.utils.fromWei(game.upAmount, "ether"),
+			Pool0Amount: web3.utils.fromWei(game.downAmount, "ether"),
 			Pool1Payout:
 				parseFloat(game.upAmount) > 0 ? ((parseFloat(game.upAmount) + parseFloat(game.downAmount)) / parseFloat(game.upAmount)).toFixed(2) : "1.00",
 			Pool0Payout:
@@ -104,13 +119,11 @@ const Betting = ({ idCurrentGame }) => {
 					: "Locked"
 		})
 	}
-	const [counter, setCounter] = useState(0)
+
 	useEffect(() => {
 		getGameInfos(idCurrentGame)
-		setTimeout(() => {
-			setCounter(counter + 1)
-		}, 1000)
-	}, [counter])
+	}, [])
+
 	return (
 		<Container>
 			<StatusContainer>
