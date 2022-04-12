@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-index",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-index.js",
+  "module": "../../esm/components/list-index.js",
+  "jsnext:main": "../../esm/components/list-index.js",
+  "typings": "list-index.d.ts"
+}

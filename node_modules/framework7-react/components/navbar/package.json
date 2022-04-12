@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/navbar",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/navbar.js",
+  "module": "../../esm/components/navbar.js",
+  "jsnext:main": "../../esm/components/navbar.js",
+  "typings": "navbar.d.ts"
+}

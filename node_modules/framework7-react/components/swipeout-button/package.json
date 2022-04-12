@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/swipeout-button",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/swipeout-button.js",
+  "module": "../../esm/components/swipeout-button.js",
+  "jsnext:main": "../../esm/components/swipeout-button.js",
+  "typings": "swipeout-button.d.ts"
+}

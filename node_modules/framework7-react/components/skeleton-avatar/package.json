@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/skeleton-avatar",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/skeleton-avatar.js",
+  "module": "../../esm/components/skeleton-avatar.js",
+  "jsnext:main": "../../esm/components/skeleton-avatar.js",
+  "typings": "skeleton-avatar.d.ts"
+}

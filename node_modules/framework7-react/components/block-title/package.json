@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/block-title",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/block-title.js",
+  "module": "../../esm/components/block-title.js",
+  "jsnext:main": "../../esm/components/block-title.js",
+  "typings": "block-title.d.ts"
+}

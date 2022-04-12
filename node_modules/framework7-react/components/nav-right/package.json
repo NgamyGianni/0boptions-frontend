@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/nav-right",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/nav-right.js",
+  "module": "../../esm/components/nav-right.js",
+  "jsnext:main": "../../esm/components/nav-right.js",
+  "typings": "nav-right.d.ts"
+}

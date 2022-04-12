@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/messagebar",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/messagebar.js",
+  "module": "../../esm/components/messagebar.js",
+  "jsnext:main": "../../esm/components/messagebar.js",
+  "typings": "messagebar.d.ts"
+}

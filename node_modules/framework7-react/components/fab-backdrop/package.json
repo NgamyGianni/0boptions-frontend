@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/fab-backdrop",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/fab-backdrop.js",
+  "module": "../../esm/components/fab-backdrop.js",
+  "jsnext:main": "../../esm/components/fab-backdrop.js",
+  "typings": "fab-backdrop.d.ts"
+}

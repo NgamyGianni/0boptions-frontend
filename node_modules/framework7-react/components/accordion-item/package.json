@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/accordion-item",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/accordion-item.js",
+  "module": "../../esm/components/accordion-item.js",
+  "jsnext:main": "../../esm/components/accordion-item.js",
+  "typings": "accordion-item.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/menu-item",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/menu-item.js",
+  "module": "../../esm/components/menu-item.js",
+  "jsnext:main": "../../esm/components/menu-item.js",
+  "typings": "menu-item.d.ts"
+}

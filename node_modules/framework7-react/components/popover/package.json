@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/popover",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/popover.js",
+  "module": "../../esm/components/popover.js",
+  "jsnext:main": "../../esm/components/popover.js",
+  "typings": "popover.d.ts"
+}

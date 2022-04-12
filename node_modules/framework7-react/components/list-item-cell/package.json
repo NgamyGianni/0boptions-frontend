@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-item-cell",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-item-cell.js",
+  "module": "../../esm/components/list-item-cell.js",
+  "jsnext:main": "../../esm/components/list-item-cell.js",
+  "typings": "list-item-cell.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/tabs",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/tabs.js",
+  "module": "../../esm/components/tabs.js",
+  "jsnext:main": "../../esm/components/tabs.js",
+  "typings": "tabs.d.ts"
+}

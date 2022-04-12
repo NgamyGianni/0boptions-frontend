@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/block-header",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/block-header.js",
+  "module": "../../esm/components/block-header.js",
+  "jsnext:main": "../../esm/components/block-header.js",
+  "typings": "block-header.d.ts"
+}

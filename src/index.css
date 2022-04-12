@@ -14,3 +14,7 @@
 .swiper-container-horizontal>.swiper-scrollbar{
 	top:13%;
 }
+
+html,body{
+	background-color: #10081e !important;
+}

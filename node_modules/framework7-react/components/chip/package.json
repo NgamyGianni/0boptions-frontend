@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/chip",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/chip.js",
+  "module": "../../esm/components/chip.js",
+  "jsnext:main": "../../esm/components/chip.js",
+  "typings": "chip.d.ts"
+}

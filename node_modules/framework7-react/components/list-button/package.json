@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-button",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-button.js",
+  "module": "../../esm/components/list-button.js",
+  "jsnext:main": "../../esm/components/list-button.js",
+  "typings": "list-button.d.ts"
+}

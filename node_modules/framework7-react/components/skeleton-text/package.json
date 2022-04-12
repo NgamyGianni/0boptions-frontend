@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/skeleton-text",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/skeleton-text.js",
+  "module": "../../esm/components/skeleton-text.js",
+  "jsnext:main": "../../esm/components/skeleton-text.js",
+  "typings": "skeleton-text.d.ts"
+}

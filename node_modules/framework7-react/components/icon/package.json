@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/icon",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/icon.js",
+  "module": "../../esm/components/icon.js",
+  "jsnext:main": "../../esm/components/icon.js",
+  "typings": "icon.d.ts"
+}

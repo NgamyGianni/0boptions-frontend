@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/swiper",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/swiper.js",
+  "module": "../../esm/components/swiper.js",
+  "jsnext:main": "../../esm/components/swiper.js",
+  "typings": "swiper.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/messages-title",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/messages-title.js",
+  "module": "../../esm/components/messages-title.js",
+  "jsnext:main": "../../esm/components/messages-title.js",
+  "typings": "messages-title.d.ts"
+}

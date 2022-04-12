@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/text-editor",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/text-editor.js",
+  "module": "../../esm/components/text-editor.js",
+  "jsnext:main": "../../esm/components/text-editor.js",
+  "typings": "text-editor.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/views",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/views.js",
+  "module": "../../esm/components/views.js",
+  "jsnext:main": "../../esm/components/views.js",
+  "typings": "views.d.ts"
+}

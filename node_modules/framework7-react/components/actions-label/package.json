@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/actions-label",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/actions-label.js",
+  "module": "../../esm/components/actions-label.js",
+  "jsnext:main": "../../esm/components/actions-label.js",
+  "typings": "actions-label.d.ts"
+}

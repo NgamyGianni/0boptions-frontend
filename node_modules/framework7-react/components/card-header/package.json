@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/card-header",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/card-header.js",
+  "module": "../../esm/components/card-header.js",
+  "jsnext:main": "../../esm/components/card-header.js",
+  "typings": "card-header.d.ts"
+}

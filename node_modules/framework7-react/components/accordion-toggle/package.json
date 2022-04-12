@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/accordion-toggle",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/accordion-toggle.js",
+  "module": "../../esm/components/accordion-toggle.js",
+  "jsnext:main": "../../esm/components/accordion-toggle.js",
+  "typings": "accordion-toggle.d.ts"
+}

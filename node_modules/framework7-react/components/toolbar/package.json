@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/toolbar",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/toolbar.js",
+  "module": "../../esm/components/toolbar.js",
+  "jsnext:main": "../../esm/components/toolbar.js",
+  "typings": "toolbar.d.ts"
+}
