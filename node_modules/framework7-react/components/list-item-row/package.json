@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-item-row",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-item-row.js",
+  "module": "../../esm/components/list-item-row.js",
+  "jsnext:main": "../../esm/components/list-item-row.js",
+  "typings": "list-item-row.d.ts"
+}

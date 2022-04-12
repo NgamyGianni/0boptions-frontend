@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/page",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/page.js",
+  "module": "../../esm/components/page.js",
+  "jsnext:main": "../../esm/components/page.js",
+  "typings": "page.d.ts"
+}

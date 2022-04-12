@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/actions",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/actions.js",
+  "module": "../../esm/components/actions.js",
+  "jsnext:main": "../../esm/components/actions.js",
+  "typings": "actions.d.ts"
+}

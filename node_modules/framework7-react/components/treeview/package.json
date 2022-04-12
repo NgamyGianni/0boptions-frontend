@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/treeview",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/treeview.js",
+  "module": "../../esm/components/treeview.js",
+  "jsnext:main": "../../esm/components/treeview.js",
+  "typings": "treeview.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/routable-modals",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/routable-modals.js",
+  "module": "../../esm/components/routable-modals.js",
+  "jsnext:main": "../../esm/components/routable-modals.js",
+  "typings": "routable-modals.d.ts"
+}

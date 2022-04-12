@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-input",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-input.js",
+  "module": "../../esm/components/list-input.js",
+  "jsnext:main": "../../esm/components/list-input.js",
+  "typings": "list-input.d.ts"
+}

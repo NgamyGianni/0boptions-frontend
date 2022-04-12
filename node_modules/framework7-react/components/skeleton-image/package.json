@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/skeleton-image",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/skeleton-image.js",
+  "module": "../../esm/components/skeleton-image.js",
+  "jsnext:main": "../../esm/components/skeleton-image.js",
+  "typings": "skeleton-image.d.ts"
+}

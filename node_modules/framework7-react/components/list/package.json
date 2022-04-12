@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list.js",
+  "module": "../../esm/components/list.js",
+  "jsnext:main": "../../esm/components/list.js",
+  "typings": "list.d.ts"
+}

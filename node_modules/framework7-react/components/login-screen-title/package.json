@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/login-screen-title",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/login-screen-title.js",
+  "module": "../../esm/components/login-screen-title.js",
+  "jsnext:main": "../../esm/components/login-screen-title.js",
+  "typings": "login-screen-title.d.ts"
+}

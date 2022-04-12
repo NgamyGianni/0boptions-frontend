@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/col",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/col.js",
+  "module": "../../esm/components/col.js",
+  "jsnext:main": "../../esm/components/col.js",
+  "typings": "col.d.ts"
+}

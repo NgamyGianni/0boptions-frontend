@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/list-group",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/list-group.js",
+  "module": "../../esm/components/list-group.js",
+  "jsnext:main": "../../esm/components/list-group.js",
+  "typings": "list-group.d.ts"
+}

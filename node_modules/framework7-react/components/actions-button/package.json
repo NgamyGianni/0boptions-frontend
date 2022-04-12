@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/actions-button",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/actions-button.js",
+  "module": "../../esm/components/actions-button.js",
+  "jsnext:main": "../../esm/components/actions-button.js",
+  "typings": "actions-button.d.ts"
+}

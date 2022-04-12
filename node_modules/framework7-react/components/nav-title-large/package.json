@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/nav-title-large",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/nav-title-large.js",
+  "module": "../../esm/components/nav-title-large.js",
+  "jsnext:main": "../../esm/components/nav-title-large.js",
+  "typings": "nav-title-large.d.ts"
+}

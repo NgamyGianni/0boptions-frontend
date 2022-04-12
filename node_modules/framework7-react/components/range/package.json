@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/range",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/range.js",
+  "module": "../../esm/components/range.js",
+  "jsnext:main": "../../esm/components/range.js",
+  "typings": "range.d.ts"
+}

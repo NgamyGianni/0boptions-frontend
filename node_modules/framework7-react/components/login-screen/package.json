@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/login-screen",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/login-screen.js",
+  "module": "../../esm/components/login-screen.js",
+  "jsnext:main": "../../esm/components/login-screen.js",
+  "typings": "login-screen.d.ts"
+}

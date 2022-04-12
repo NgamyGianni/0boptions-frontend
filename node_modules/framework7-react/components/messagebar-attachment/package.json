@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/messagebar-attachment",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/messagebar-attachment.js",
+  "module": "../../esm/components/messagebar-attachment.js",
+  "jsnext:main": "../../esm/components/messagebar-attachment.js",
+  "typings": "messagebar-attachment.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/block-footer",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/block-footer.js",
+  "module": "../../esm/components/block-footer.js",
+  "jsnext:main": "../../esm/components/block-footer.js",
+  "typings": "block-footer.d.ts"
+}

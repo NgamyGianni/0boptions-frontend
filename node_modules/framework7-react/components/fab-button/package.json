@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/fab-button",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/fab-button.js",
+  "module": "../../esm/components/fab-button.js",
+  "jsnext:main": "../../esm/components/fab-button.js",
+  "typings": "fab-button.d.ts"
+}

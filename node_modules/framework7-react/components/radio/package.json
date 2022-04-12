@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/radio",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/radio.js",
+  "module": "../../esm/components/radio.js",
+  "jsnext:main": "../../esm/components/radio.js",
+  "typings": "radio.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/menu-dropdown",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/menu-dropdown.js",
+  "module": "../../esm/components/menu-dropdown.js",
+  "jsnext:main": "../../esm/components/menu-dropdown.js",
+  "typings": "menu-dropdown.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "framework7-react/row",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/row.js",
+  "module": "../../esm/components/row.js",
+  "jsnext:main": "../../esm/components/row.js",
+  "typings": "row.d.ts"
+}
