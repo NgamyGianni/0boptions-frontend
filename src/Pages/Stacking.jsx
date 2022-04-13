@@ -30,7 +30,9 @@ const Stacking = () => {
 		amount: "...",
 		reward: "...",
 		pendingReward: "...",
-		balance: "..."
+		balance: "...",
+		contractBalance : '...',
+		totalRewards : '...'
 	})
 
 	const [selectedAccount, setSelectedAccount] = useState("");
@@ -77,14 +79,18 @@ const Stacking = () => {
 				amount: await web3.utils.fromWei(stacker["amount"], 'ether'),
 				reward: stacker["reward"],
 				pendingReward: pendingReward,
-				balance: await contractToken.methods.balanceOf(selectedAccount).call()
+				balance: await web3.utils.fromWei(await contractToken.methods.balanceOf(selectedAccount).call()),
+				contractBalance : await web3.utils.fromWei(await contractToken.methods.balanceOf("0x4b411235ba0E1B4bFe35465c591B9da603C4d556").call()),
+				totalRewards : await web3.utils.fromWei(await web3.eth.getBalance("0x4b411235ba0E1B4bFe35465c591B9da603C4d556"), 'ether')
 			});
 		}else{
 			setProfileInfos({
 				amount: "...",
 				reward: "...",
 				pendingReward: "...",
-				balance: "..."
+				balance: "...",
+				contractBalance : '...',
+				totalRewards : '...'
 			});
 		}
 	}
@@ -153,15 +159,11 @@ const Stacking = () => {
 	const [data, setData] = useState(0)
 	useEffect(() => {
 		if(userInfos.status !== "connected")	logAccount();
-		//if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
 	}, [selectedAccount, counter])
 
 	useEffect(() => {
-		//if(counter >= 5 && data < 3){
-			if(userInfos.status === "connected" && profileInfos.amount === "...")	getData();
-			setTimeout(() => {setCounter(counter+1);}, 1000)
-			//setData(data+1)
-		//}
+		if(userInfos.status === "connected" && profileInfos.amount === "...")	getData();
+		setTimeout(() => {setCounter(counter+1);}, 1000)
 	}, [counter, selectedAccount])
 
 	useEffect(() => {
@@ -189,9 +191,15 @@ const Stacking = () => {
 						<Container>
 							<StatsContainer>
 								<Stats>
-									<Key>Balance</Key>
-									<Value>{profileInfos.balance == "..." ? <Loading size="xs"/> : profileInfos.balance / (10**18)} 0b</Value>
+									<Key>Total Stacking Balance</Key>
+									<Value>{profileInfos.contractBalance == "..." ? <Loading size="xs"/> : profileInfos.contractBalance} 0b</Value>
 								</Stats>
+								<Stats>
+									<Key>Total Rewards</Key>
+									<Value>{profileInfos.totalRewards == "..." ? <Loading size="xs"/> : profileInfos.totalRewards} MATIC</Value>
+								</Stats>
+								</StatsContainer>
+								<StatsContainer style={{"marginTop": "10%"}}>
 								<Stats>
 									<Key>Stack</Key>
 									<Value>{profileInfos.amount == "..." ? <Loading size="xs"/> : profileInfos.amount} 0b</Value>
@@ -217,6 +225,10 @@ const Stacking = () => {
 									<Key>Pending Reward</Key>
 									<Value>{profileInfos.pendingReward == "..." ? <Loading size="xs"/> : profileInfos.pendingReward} MATIC</Value>
 									<Button onClick={() => reward()} flat color={profileInfos.pendingReward > 0 ? "success" : "error"} style={{"marginLeft": "0%", "marginTop": "0%"}}>Collect</Button>
+								</Stats>
+								<Stats>
+									<Key>Your Balance</Key>
+									<Value>{profileInfos.balance == "..." ? <Loading size="xs"/> : profileInfos.balance} 0b</Value>
 								</Stats>
 							</StatsContainer>
 						</Container>

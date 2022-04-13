@@ -155,25 +155,17 @@ const Profile = () => {
 		if(userInfos.status !== "connected"){	
 			logAccount();
 		}
-		//if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
 	}, [selectedAccount, counter])
 
 	useEffect(() => {
-		//if(counter >= 5 && data < 3){
-			if(userInfos.status === "connected" && (profileInfos.rounds === "..." || profileInfos.rounds === "error"))	getData();
-			setTimeout(() => {setCounter(counter+1);}, 1000)
-			//setData(data+1)
-		//}
+		if(userInfos.status === "connected" && (profileInfos.rounds === "..." || profileInfos.rounds === "error"))	getData();
+		setTimeout(() => {setCounter(counter+1);}, 1000)
 	}, [counter, selectedAccount])
 
 	useEffect(() => {
-		//if(counter >= 5 && data < 3){
-			if(userInfos.status === "connected" && userReward.rewards === "")	{
-				getReward();
-			}
-			//setTimeout(() => {setCounter(counter+1);}, 1000)
-			//setData(data+1)
-		//}
+		if(userInfos.status === "connected" && userReward.rewards === "")	{
+			getReward();
+		}
 	}, [selectedAccount, counter])
 
 	useEffect(() => {

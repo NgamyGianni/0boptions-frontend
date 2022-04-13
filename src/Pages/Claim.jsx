@@ -25,7 +25,8 @@ const Claim = () => {
 
 	const [profileInfos, setProfileInfos] = useState({
 		pendingRounds: "...",
-		balance : "..."
+		balance : "...",
+		contractBalance : "..."
 	})
 
 	const [selectedAccount, setSelectedAccount] = useState("");
@@ -65,16 +66,19 @@ const Claim = () => {
 		if(selectedAccount !== "" && userInfos.network == "137"){
 
 			let pendingRounds = await contractClaim.methods.isWinnerGames(selectedAccount).call();
-			let balance = await contractToken.methods.balanceOf(selectedAccount).call();
+			let balance = await web3.utils.fromWei(await contractToken.methods.balanceOf(selectedAccount).call());
+			let contractBalance = await web3.utils.fromWei(await contractToken.methods.balanceOf("0xff5e58A9e6F2658F838fD68Dd353Da6645B004B7").call());
 
 			setProfileInfos({
 				pendingRounds: pendingRounds[2],
-				balance : balance
+				balance : balance,
+				contractBalance: contractBalance
 			});
 		}else{
 			setProfileInfos({
 				pendingRounds: 0,
-				balance : 0
+				balance : 0,
+				contractBalance: 0
 			});
 		}
 	}
@@ -114,35 +118,16 @@ const Claim = () => {
 	      }
 	    }
 	  }
-	/*const [counter, setCounter] = useState(0)
-	const [data, setData] = useState(0)
-	useEffect(() => {
-		if(counter < 7){
-			logAccount();
-		}
-		if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
-	}, [counter])
-
-	useEffect(() => {
-		if(counter >= 5 && data < 3){
-			getData();
-			setData(data+1)
-		}
-	}, [counter])*/
 
 	const [counter, setCounter] = useState(0)
 	const [data, setData] = useState(0)
 	useEffect(() => {
 		if(userInfos.status !== "connected")	logAccount();
-		//if(counter < 20)	setTimeout(() => {setCounter(counter+1);}, 1000)
 	}, [selectedAccount, counter])
 
 	useEffect(() => {
-		//if(counter >= 5 && data < 3){
 			if(userInfos.status === "connected" && (profileInfos.balance === "..." || profileInfos.balance === "error"))	getData();
 			setTimeout(() => {setCounter(counter+1);}, 1000)
-			//setData(data+1)
-		//}
 	}, [counter, selectedAccount])
 
 	useEffect(() => {
@@ -169,10 +154,12 @@ const Claim = () => {
 				<ContainerGen>
 					<Container>
 						<StatsContainer>
-						<Stats>
-								<Key>Balance</Key>
-								<Value>{profileInfos.balance == "..." ? <Loading size="xs"/> : profileInfos.balance / (10**18)} 0b</Value>
+							<Stats>
+								<Key>Contract Balance</Key>
+								<Value>{profileInfos.contractBalance == "..." ? <Loading size="xs"/> : profileInfos.contractBalance} 0b</Value>
 							</Stats>
+							</StatsContainer>
+							<StatsContainer style={{'marginTop': '10%'}}>
 							<Stats>
 								<Key>Join a game with 1 MATIC or more to win 10 0bToken</Key>
 								<Value>{profileInfos.pendingRounds == "..." ? <Loading size="xs"/> : profileInfos.pendingRounds} {profileInfos.pendingRounds <= 1 ? "round" : "rounds"}</Value>
@@ -181,6 +168,10 @@ const Claim = () => {
 							<Stats>
 								<Key>Pending</Key>
 								<Value>{profileInfos.pendingRounds == "..." ? <Loading size="xs"/> : 10 * profileInfos.pendingRounds} 0b</Value>
+							</Stats>
+							<Stats>
+								<Key>Your Balance</Key>
+								<Value>{profileInfos.balance == "..." ? <Loading size="xs"/> : profileInfos.balance} 0b</Value>
 							</Stats>
 						</StatsContainer>
 					</Container>
