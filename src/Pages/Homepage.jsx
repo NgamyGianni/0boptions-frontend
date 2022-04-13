@@ -237,7 +237,7 @@ const Homepage = () => {
 
 	useEffect(() => {
 		getTime();
-	}, [idCurrentGame.current])
+	}, [idCurrentGame])
 
 	useEffect(() => {
 		setTimeout(() => {setCounterTime(counterTime+1);}, 1000)
