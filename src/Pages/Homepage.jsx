@@ -79,20 +79,16 @@ const Homepage = () => {
 
 			let currentBlock = await web3.eth.getBlockNumber();
 
-			let joinEvents = await contract.getPastEvents('_joinUp',
-			    {fromBlock: currentBlock - 999}//, toBlock:currentBlock}
+			let joinUpEvents = await contract.getPastEvents('_joinUp',
+			    {fromBlock: currentBlock - 999}
 			);
 
 			let joinDownEvents = await contract.getPastEvents('_joinDown',
-			    {fromBlock: currentBlock - 999}//, toBlock:currentBlock}
+			    {fromBlock: currentBlock - 999}
 			);
 
 
-			let events = [];
-
-			for(let i=0; i<joinEvents.length; i++){
-				if(joinEvents[i].event == "_joinUp" || joinEvents[i].event == "_joinDown")	events.push(joinEvents[i])
-			}
+			let events = joinUpEvents.concat(joinDownEvents);
 
 			setIdCurrentGame({
 				current: current,
@@ -121,12 +117,7 @@ const Homepage = () => {
 					game = receipt
 				})
 
-		/*let min = String((game.endTimestamp - Math.floor(Date.now()/1000)) % 60);
-		if(min < 10)	min  = "0"+ min*/
-
 		setTimeLeft({
-			/*timeLeft: Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60) >= 0 ? "Time left : " + String(Math.floor((game.endTimestamp - Math.floor(Date.now()/1000))/60)) + " : " + min : "Calculating",
-			timestampLeft:((Date.now()/1000) - gamePred.endTimestamp)*100/(game.endTimestamp - gamePred.endTimestamp),*/
 			gameEndTimestamp: game.endTimestamp,
 			gamePredEndTimestamp: gamePred.endTimestamp,
 			game: game,
@@ -251,13 +242,9 @@ const Homepage = () => {
 	}, [counterTime])
 
 	useEffect(() => {
-		//if(counter >= 5 && data < 3){
-			if(userInfos.status === "connected" && userReward.rewards === "")	{
-				getReward();
-			}
-			//setTimeout(() => {setCounter(counter+1);}, 1000)
-			//setData(data+1)
-		//}
+		if(userInfos.status === "connected" && userReward.rewards === "")	{
+			getReward();
+		}
 	}, [selectedAccount, counterTime])
 
 	return (
