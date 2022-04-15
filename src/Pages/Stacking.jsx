@@ -198,9 +198,7 @@ const Stacking = () => {
 									<Key>Total Rewards</Key>
 									<Value>{profileInfos.totalRewards == "..." ? <Loading size="xs"/> : profileInfos.totalRewards} MATIC</Value>
 								</Stats>
-								</StatsContainer>
-								<StatsContainer style={{"marginTop": "10%"}}>
-								<Stats>
+								<Stats style={{"marginTop": "10%"}}>
 									<Key>Stack</Key>
 									<Value>{profileInfos.amount == "..." ? <Loading size="xs"/> : profileInfos.amount} 0b</Value>
 									<Popup trigger={<Button flat color="success" style={{"marginLeft": "0%", "marginTop": "0%"}}>Add tokens</Button>}>

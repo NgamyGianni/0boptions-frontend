@@ -200,11 +200,11 @@ const Profile = () => {
 								<Key>Rounds</Key>
 								<Value>{profileInfos.rounds == "..." ? <Loading size="xs"/> : profileInfos.rounds} {profileInfos.rounds <= 1 ? "round" : "rounds"}</Value>
 							</Stats>
-						</StatsContainer>
-						<Stats style={{"margin-top":"20%"}}>
+						<Stats style={{"margin-top":"10%"}}>
 								<Key>Net Winnings</Key>
-								<Value style={{color:"#191b1f"}}>{profileInfos.netWinnings == "..." ? <Loading size="xs"/> : profileInfos.netWinnings} MATIC</Value>
+								<Value>{profileInfos.netWinnings == "..." ? <Loading size="xs"/> : profileInfos.netWinnings} MATIC</Value>
 						</Stats>
+						</StatsContainer>
 					</Container>
 				</ContainerGen>
 			: 
@@ -271,7 +271,6 @@ const ContainerLoading = styled.div`
 `
 
 const Container = styled.div`
-	background-image: linear-gradient(90deg, rgb(206, 162, 206) 0%, rgb(149, 177, 254) 100%);
 	color: rgb(84, 36, 50);
 	margin-top: 5rem;
 	width: 50%;

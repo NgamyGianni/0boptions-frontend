@@ -158,9 +158,7 @@ const Claim = () => {
 								<Key>Contract Balance</Key>
 								<Value>{profileInfos.contractBalance == "..." ? <Loading size="xs"/> : profileInfos.contractBalance} 0b</Value>
 							</Stats>
-							</StatsContainer>
-							<StatsContainer style={{'marginTop': '10%'}}>
-							<Stats>
+							<Stats style={{"marginTop": "10%"}}>
 								<Key>Join a game with 1 MATIC or more to win 10 0bToken</Key>
 								<Value>{profileInfos.pendingRounds == "..." ? <Loading size="xs"/> : profileInfos.pendingRounds} {profileInfos.pendingRounds <= 1 ? "round" : "rounds"}</Value>
 								{profileInfos.pendingRounds == "..." ? "" : <Button flat color={profileInfos.pendingRounds > 0 ? "success" : "error"} onClick={() => reward()}>Collect</Button>}
