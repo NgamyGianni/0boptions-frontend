@@ -78,7 +78,7 @@ const Stacking = () => {
 			setProfileInfos({
 				amount: await web3.utils.fromWei(stacker["amount"], 'ether'),
 				reward: stacker["reward"],
-				pendingReward: pendingReward,
+				pendingReward: await web3.utils.fromWei(pendingReward, 'ether'),
 				balance: await web3.utils.fromWei(await contractToken.methods.balanceOf(selectedAccount).call()),
 				contractBalance : await web3.utils.fromWei(await contractToken.methods.balanceOf("0x4b411235ba0E1B4bFe35465c591B9da603C4d556").call()),
 				totalRewards : await web3.utils.fromWei(await web3.eth.getBalance("0x4b411235ba0E1B4bFe35465c591B9da603C4d556"), 'ether')
