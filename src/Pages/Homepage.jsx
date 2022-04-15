@@ -328,6 +328,7 @@ const Homepage = () => {
 				<Loading size="xl" />
 				<RewardTextNo>Make sure Metamask is installed and connected to Polygon's network.</RewardTextNo>
 				<RewardButton style={{width: "20%"}} onClick={() => window.open("https://metamask.io")}>Install Metamask</RewardButton>
+				<RewardTextNo>if installed</RewardTextNo>
 				<RewardTextNo>Click below to switch networks.</RewardTextNo>
 				<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
 			</ContainerLoading>
