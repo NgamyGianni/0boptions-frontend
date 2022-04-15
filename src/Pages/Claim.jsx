@@ -155,7 +155,7 @@ const Claim = () => {
 					<Container>
 						<StatsContainer>
 							<Stats>
-								<Key>Contract Balance</Key>
+								<Key>Entire Obtenable 0bToken</Key>
 								<Value>{profileInfos.contractBalance == "..." ? <Loading size="xs"/> : profileInfos.contractBalance} 0b</Value>
 							</Stats>
 							<Stats style={{"marginTop": "10%"}}>
@@ -164,7 +164,7 @@ const Claim = () => {
 								{profileInfos.pendingRounds == "..." ? "" : <Button flat color={profileInfos.pendingRounds > 0 ? "success" : "error"} onClick={() => reward()}>Collect</Button>}
 							</Stats>
 							<Stats>
-								<Key>Pending</Key>
+								<Key>Your Pending Request</Key>
 								<Value>{profileInfos.pendingRounds == "..." ? <Loading size="xs"/> : 10 * profileInfos.pendingRounds} 0b</Value>
 							</Stats>
 							<Stats>
@@ -177,6 +177,7 @@ const Claim = () => {
 			: 
 			<ContainerGen style={{"flex-direction": "column"}}>
 					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
+					<RewardText>if installed</RewardText>
 					<RewardText>Click below to switch networks.</RewardText>
 					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
 			</ContainerGen>
@@ -185,6 +186,7 @@ const Claim = () => {
 				<Loading size="xl" />
 				<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
 				<RewardButton style={{width: "20%"}} onClick={() => window.open("https://metamask.io")}>Install Metamask</RewardButton>
+				<RewardText>if installed</RewardText>
 				<RewardText>Click below to switch networks.</RewardText>
 				<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
 			</ContainerGen>

@@ -191,11 +191,11 @@ const Stacking = () => {
 						<Container>
 							<StatsContainer>
 								<Stats>
-									<Key>Total Stacking Balance</Key>
+									<Key>Entire 0bToken Stacking Balance</Key>
 									<Value>{profileInfos.contractBalance == "..." ? <Loading size="xs"/> : profileInfos.contractBalance} 0b</Value>
 								</Stats>
 								<Stats>
-									<Key>Total Rewards</Key>
+									<Key>Total MATIC Payout</Key>
 									<Value>{profileInfos.totalRewards == "..." ? <Loading size="xs"/> : profileInfos.totalRewards} MATIC</Value>
 								</Stats>
 								<Stats style={{"marginTop": "10%"}}>
@@ -220,7 +220,7 @@ const Stacking = () => {
 									</Popup>
 								</Stats>
 								<Stats>
-									<Key>Pending Reward</Key>
+									<Key>Your Pending Payout</Key>
 									<Value>{profileInfos.pendingReward == "..." ? <Loading size="xs"/> : profileInfos.pendingReward} MATIC</Value>
 									<Button onClick={() => reward()} flat color={profileInfos.pendingReward > 0 ? "success" : "error"} style={{"marginLeft": "0%", "marginTop": "0%"}}>Collect</Button>
 								</Stats>
@@ -242,6 +242,7 @@ const Stacking = () => {
 					<Loading size="xl" />
 					<RewardText>Make sure Metamask is installed and connected to Polygon's network.</RewardText>
 					<RewardButton style={{width: "20%"}} onClick={() => window.open("https://metamask.io")}>Install Metamask</RewardButton>
+					<RewardText>if installed</RewardText>
 					<RewardText>Click below to switch networks.</RewardText>
 					<RewardButton style={{width: "20%"}} onClick={() => switchEthereumChain()}>Switch network</RewardButton>
 				</ContainerGen>
