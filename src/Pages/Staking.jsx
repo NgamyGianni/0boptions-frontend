@@ -5,7 +5,7 @@ import Web3 from 'web3'
 import { Button, Text, Loading } from '@nextui-org/react';
 import Popup from 'reactjs-popup';
 
-const Stacking = () => {
+const Staking = () => {
 	let stackAmount = React.createRef();
 	let unstackAmount = React.createRef();
 	const web3 = new Web3(window.ethereum);
@@ -15,8 +15,8 @@ const Stacking = () => {
 	let abiToken = [{"inputs":[{"internalType":"uint256","name":"total","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"tokenOwner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"delegate","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"delegate","type":"address"},{"internalType":"uint256","name":"numTokens","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"burn","outputs":[{"internalType":"bool","name":"success","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"receiver","type":"address"},{"internalType":"uint256","name":"numTokens","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"buyer","type":"address"},{"internalType":"uint256","name":"numTokens","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
 	let contractToken = new web3.eth.Contract(abiToken, "0x77127bEC1015d13B03CB6364E49c050C0FE1f22a");
 
-	let abiStacking = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"admin","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"AddLiquidity","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"stacker","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"GetReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"stacker","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Stack","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"stacker","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Unstack","type":"event"},{"inputs":[],"name":"ObToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"addLiquidity","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"dividendByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"index","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"pendingReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"stack","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"stackedByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"stackers","outputs":[{"internalType":"uint256","name":"cursor","type":"uint256"},{"internalType":"uint256","name":"amountBefore","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"reward","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"unstack","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"unstackAll","outputs":[],"stateMutability":"nonpayable","type":"function"}];
-	let contractStacking = new web3.eth.Contract(abiStacking, "0x4b411235ba0E1B4bFe35465c591B9da603C4d556");
+	let abiStaking = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"admin","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"AddLiquidity","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"stacker","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"GetReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"stacker","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Stack","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"stacker","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokens","type":"uint256"}],"name":"Unstack","type":"event"},{"inputs":[],"name":"ObToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"addLiquidity","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"dividendByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"index","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"pendingReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"stack","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"stackedByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"stackers","outputs":[{"internalType":"uint256","name":"cursor","type":"uint256"},{"internalType":"uint256","name":"amountBefore","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"reward","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"unstack","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"unstackAll","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+	let contractStaking = new web3.eth.Contract(abiStaking, "0x4b411235ba0E1B4bFe35465c591B9da603C4d556");
 
 	let connected = false;
 
@@ -70,9 +70,9 @@ const Stacking = () => {
 
 	async function getData(){
 		if(selectedAccount !== "" && userInfos.network == "137"){
-			let stacker = await contractStacking.methods.stackers(selectedAccount).call();
-			let index = await contractStacking.methods.index().call();
-			let pendingReward = await contractStacking.methods.pendingReward(selectedAccount).call();
+			let stacker = await contractStaking.methods.stackers(selectedAccount).call();
+			let index = await contractStaking.methods.index().call();
+			let pendingReward = await contractStaking.methods.pendingReward(selectedAccount).call();
 			pendingReward = pendingReward[0];
 
 			setProfileInfos({
@@ -100,7 +100,7 @@ const Stacking = () => {
 			if(Boolean(stackAmount.current.value.match("^[0-9]*[.,]?[0-9]*$"))){
 				let amount = stackAmount.current.value.replace(",", ".");
 			 	let approve = await contractToken.methods.approve("0x4b411235ba0E1B4bFe35465c591B9da603C4d556", web3.utils.toWei(amount, "ether")).send({from: selectedAccount, type: "0x0"});
-			 	if(approve)	await contractStacking.methods.stack().send({from: userInfos.account, type: "0x0"});
+			 	if(approve)	await contractStaking.methods.stack().send({from: userInfos.account, type: "0x0"});
 			}
 		}
 	}
@@ -109,19 +109,19 @@ const Stacking = () => {
 		if(userInfos.network == "137"){
 			if(Boolean(unstackAmount.current.value.match("^[0-9]*[.,]?[0-9]*$"))){
 				let amount = unstackAmount.current.value.replace(",", ".");
-			 	await contractStacking.methods.unstack(web3.utils.toWei(amount, "ether")).send({from: selectedAccount, type: "0x0"});
+			 	await contractStaking.methods.unstack(web3.utils.toWei(amount, "ether")).send({from: selectedAccount, type: "0x0"});
 			}
 		}
 	}
 
 	async function removeAll(){
 		if(userInfos.network == "137"){
-			await contractStacking.methods.unstackAll().send({from: selectedAccount, type: "0x0"});
+			await contractStaking.methods.unstackAll().send({from: selectedAccount, type: "0x0"});
 		}
 	}
 
 	async function reward(){
-		if(userInfos.network == "137")	await contractStacking.methods.getReward().send({from: selectedAccount, type: "0x0"});
+		if(userInfos.network == "137")	await contractStaking.methods.getReward().send({from: selectedAccount, type: "0x0"});
 	}
 
 	async function switchEthereumChain() {
@@ -184,14 +184,14 @@ const Stacking = () => {
 	}, [selectedAccount, profileInfos])
 	return (
 		<Main>
-			<Navbar userInfos={userInfos} page="Stacking"/>
+			<Navbar userInfos={userInfos} page="Staking"/>
 			{userInfos.status == "connected" ? 
 				userInfos.network == "137" ? 
 					<ContainerGen>
 						<Container>
 							<StatsContainer>
 								<Stats>
-									<Key>Entire 0bToken Stacking Balance</Key>
+									<Key>Entire 0bToken Staking Balance</Key>
 									<Value>{profileInfos.contractBalance == "..." ? <Loading size="xs"/> : profileInfos.contractBalance} 0b</Value>
 								</Stats>
 								<Stats>
@@ -206,7 +206,7 @@ const Stacking = () => {
 											<Stats>
 												<InputAmount ref={stackAmount} onKeyPress={(event) => {if (!/^[0-9]*[.,]?[0-9]*$/.test(event.key)) {event.preventDefault();}}} inputmode="decimal" autocomplete="off" autocorrect="off" type="text" pattern="^[0-9]*[.,]?[0-9]*$" placeholder="0.0" minlength="1" maxlength="79" spellcheck="false" style={{width: "100%"}}/>
 											</Stats>
-											<Button onClick={() => approveAndSend()}>Join Stacking</Button>
+											<Button onClick={() => approveAndSend()}>Join Staking</Button>
 										</StatsContainer>
 						  			</Popup>
 									<Popup trigger={<Button flat color="error" style={{"marginLeft": "0%", "marginTop": "0%"}}>Remove tokens</Button>}>
@@ -397,4 +397,4 @@ const RewardButton = styled.button`
 	}
 `
 
-export default Stacking
+export default Staking

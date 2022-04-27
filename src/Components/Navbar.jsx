@@ -20,8 +20,8 @@ const Navbar = ({userInfos, page}) => {
  				<Tab className={page=="Claim" ? "active":""}>
  					<LinkToPage to="/Claim">Claim</LinkToPage>
  				</Tab>
- 				<Tab className={page=="Stacking" ? "active":""}>
- 					<LinkToPage to="/stacking" >Stacking</LinkToPage>
+ 				<Tab className={page=="Staking" ? "active":""}>
+ 					<LinkToPage to="/staking" >Staking</LinkToPage>
  				</Tab>
  			</Tabs>
 			<Title style={{"margin-left": "3.5%"}}>
